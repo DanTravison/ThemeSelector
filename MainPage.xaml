@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ThemeSelector"
+             xmlns:am="clr-namespace:Microsoft.Maui.ApplicationModel;assembly=Microsoft.Maui.Essentials"
+             x:Class="ThemeSelector.MainPage"
+             x:DataType="local:MainViewModel"
+             BackgroundColor="{DynamicResource PrimaryBackground}"
+             >
+
+    <ContentPage.Resources>
+        <x:Double x:Key="DefaultFontSize">20</x:Double>
+        
+        <Style x:Key="GroupBorderStyle"
+               TargetType="Border"
+               >
+            <Setter Property="HorizontalOptions"
+                    Value="Fill"/>
+            <Setter Property="VerticalOptions"
+                    Value="Fill"/>
+            <Setter Property="Margin"
+                    Value="10,0,10,5"/>
+            <Setter Property="Stroke"
+                    Value="{DynamicResource PrimaryForeground}"/>
+            <Setter Property="BackgroundColor"
+                    Value="{DynamicResource PrimaryBackground}"/>
+            <Setter Property="StrokeShape">
+                <RoundRectangle CornerRadius="5,5,5,5"/>
+            </Setter>
+        </Style>
+
+        <Style x:Key="RadioTextStyle"
+               TargetType="RadioButton"
+               >
+            <Setter Property="TextColor"
+                    Value="{DynamicResource PrimaryForeground}"/>
+            <Setter Property="BackgroundColor"
+                    Value="Transparent"/>
+            <Setter Property="FontSize"
+                Value="{StaticResource DefaultFontSize}" />
+            <Setter Property="HorizontalOptions"
+                Value="Start" />
+        </Style>
+
+        <Style x:Key="GroupLabelTextStyle"
+               TargetType="Label"
+               >
+            <Setter Property="FontSize"
+                Value="{StaticResource DefaultFontSize}" />
+            <Setter Property="FontAttributes"
+                    Value="Bold"/>
+            <Setter Property="Margin"
+                    Value="5,5,0,5"/>
+        </Style>
+
+        <DataTemplate x:Key="ThemeItemTemplate"
+                      x:DataType="local:ThemeItem">
+            <RadioButton Content="{Binding Text, Mode=OneTime}"
+                         Value="{Binding Theme, Mode=OneTime}"
+                         IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                         Style="{StaticResource RadioTextStyle}"
+                         />
+        </DataTemplate>
+
+    </ContentPage.Resources>
+    
+    <Grid Margin="5,5,5,5"
+          HorizontalOptions="Fill"
+          VerticalOptions="Fill">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" 
+                Style="{StaticResource GroupBorderStyle}">
+            <StackLayout Orientation="Vertical"
+                         Spacing="5"
+                         HorizontalOptions="Fill"
+                         VerticalOptions="Fill"
+                         BindableLayout.ItemsSource="{Binding Themes}"
+                         BindableLayout.ItemTemplate="{StaticResource ThemeItemTemplate}"
+                         />
+        </Border>
+    </Grid>
+
+</ContentPage>

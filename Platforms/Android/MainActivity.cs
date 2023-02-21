@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
+using Android.Content.Res;
 using Android.OS;
 using ThemeSelector.Platforms.Android;
 
@@ -17,19 +18,31 @@ namespace ThemeSelector;
 )]
 public class MainActivity : MauiAppCompatActivity
 {
+
+// Address https://github.com/dotnet/maui/issues/8236,
+// RequestedThemeChanged is not raised.
+// On Android 30 or greater, use OnConfigurationChanged().
+// On earlier versions, OnConfigurationChanged is not called.
+// Use OnWindowFocusChanged(true) to avoid polling.
+#if ANDROID30_0_OR_GREATER
+
+    public override void OnConfigurationChanged(Configuration newConfig)
+    {
+        base.OnConfigurationChanged(newConfig);
+        ThemeInfo.CheckTheme();
+    }
+
+#else
+
     public override void OnWindowFocusChanged(bool hasFocus)
     {
         base.OnWindowFocusChanged(hasFocus);
-        // Due to https://github.com/dotnet/maui/issues/8236,
-        // RequestedThemeChanged is not raised.
-        // To avoid polling, check for system theme changes when
-        // the window gains focus.
-        // The caveat to this is if the app is visible when the theme changes,
-        // such as when multiple screens are available, it will not update
-        // until it receives focus.
+ 
         if (hasFocus)
         {
             ThemeInfo.CheckTheme();
         }
     }
+#endif
+
 }

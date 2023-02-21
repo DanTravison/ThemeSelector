@@ -44,7 +44,7 @@ namespace ThemeSelector.Platforms.Android
             if (_currentTheme == null || _currentTheme != currentTheme)
             {
                 _currentTheme = currentTheme;
-                RequestedThemeChanged.Invoke(null, currentTheme == AppTheme.Light ? LightThemeEventArgs : DarkThemeEventArgs);
+                RequestedThemeChanged?.Invoke(null, currentTheme == AppTheme.Light ? LightThemeEventArgs : DarkThemeEventArgs);
             }
         }
 

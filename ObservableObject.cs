@@ -36,6 +36,17 @@ namespace ThemeSelector
 
         #region SetProperty
 
+        protected bool SetProperty(ref object field, object newValue, PropertyChangedEventArgs e)
+        {
+            if (!object.ReferenceEquals(field, newValue))
+            {
+                field = newValue;
+                OnPropertyChanged(e);
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Provides a <see cref="INotifyPropertyChanged"/> event with a cached <see cref="PropertyChangedEventArgs"/>.
         /// </summary>

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ThemeSelector"
+             xmlns:controls="clr-namespace:ThemeSelector.Controls"
              xmlns:am="clr-namespace:Microsoft.Maui.ApplicationModel;assembly=Microsoft.Maui.Essentials"
              x:Class="ThemeSelector.MainPage"
              x:DataType="local:MainViewModel"
@@ -9,7 +10,6 @@
              >
 
     <ContentPage.Resources>
-        <x:Double x:Key="DefaultFontSize">20</x:Double>
         
         <Style x:Key="GroupBorderStyle"
                TargetType="Border"
@@ -55,9 +55,9 @@
 
         <DataTemplate x:Key="ThemeItemTemplate"
                       x:DataType="local:ThemeItem">
-            <RadioButton Content="{Binding Text, Mode=OneTime}"
-                         Value="{Binding Theme, Mode=OneTime}"
-                         IsChecked="{Binding IsSelected, Mode=TwoWay}"
+            <RadioButton Content="{Binding Text}"
+                         Value="{Binding Theme}"
+                         IsChecked="{Binding IsSelected}"
                          Style="{StaticResource RadioTextStyle}"
                          />
         </DataTemplate>
@@ -69,16 +69,28 @@
           VerticalOptions="Fill">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
         <Border Grid.Row="0" 
                 Style="{StaticResource GroupBorderStyle}">
             <StackLayout Orientation="Vertical"
                          Spacing="5"
                          HorizontalOptions="Fill"
                          VerticalOptions="Fill"
-                         BindableLayout.ItemsSource="{Binding Themes}"
+                         BindableLayout.ItemsSource="{Binding ThemeItems}"
                          BindableLayout.ItemTemplate="{StaticResource ThemeItemTemplate}"
                          />
+        </Border>
+
+        <Border Grid.Row="1"
+                Style="{StaticResource GroupBorderStyle}">
+            <controls:RadioGroup ItemsSource="{Binding Themes}"
+                                 SelectedValue="{Binding PreferredTheme}"
+                                 TextColor="{DynamicResource PrimaryForeground}"
+                                 DisabledTextColor="{DynamicResource DisabledForeground}"
+                                 SelectedColor="{DynamicResource PrimaryForeground}"
+                                 />      
         </Border>
     </Grid>
 

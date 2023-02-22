@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using ThemeSelector.Controls;
 
 namespace ThemeSelector
 {
@@ -13,16 +14,22 @@ namespace ThemeSelector
         AppTheme _preferredTheme = AppTheme.Unspecified;
         AppTheme _activeTheme = AppTheme.Unspecified;
 
-        readonly ObservableCollection<ThemeItem> _themes = new ();
-
+        readonly ObservableCollection<ThemeItem> _themeItems = new ();
+        readonly ObservableCollection<AppTheme> _themes = new();
         #endregion Fields
 
         public MainViewModel()
         {
-            _themes.Add(new ("System", OnThemeSelected, AppTheme.Unspecified, true));
-            _themes.Add(new (nameof(AppTheme.Light), OnThemeSelected, AppTheme.Light));
-            _themes.Add(new (nameof(AppTheme.Dark), OnThemeSelected, AppTheme.Dark));
-            Themes = new (_themes);
+            _themeItems.Add(new ("System", OnThemeSelected, AppTheme.Unspecified, true));
+            _themeItems.Add(new (nameof(AppTheme.Light), OnThemeSelected, AppTheme.Light));
+            _themeItems.Add(new (nameof(AppTheme.Dark), OnThemeSelected, AppTheme.Dark));
+            ThemeItems = new (_themeItems);
+
+            foreach (AppTheme theme in Enum.GetValues<AppTheme>())
+            {
+                _themes.Add(theme);
+            }
+            Themes = new(_themes);
 
             if (Application.Current is App app)
             {
@@ -32,7 +39,18 @@ namespace ThemeSelector
 
         #region Properties
 
-        public ReadOnlyObservableCollection<ThemeItem> Themes
+        /// <summary>
+        /// Provides a <see cref="ThemeItem"/> collection for testing radio buttons
+        /// </summary>
+        public ReadOnlyObservableCollection<ThemeItem> ThemeItems
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Provides an <see cref="AppTheme"/> collection for testing <see cref="RadioGroup"/>.
+        /// </summary>
+        public ReadOnlyObservableCollection<AppTheme> Themes
         {
             get;
         }
@@ -45,7 +63,7 @@ namespace ThemeSelector
                 if (SetProperty(ref _preferredTheme, value, PreferredThemeChangedEventArgs))
                 {
                     SetTheme(value);
-                    foreach (ThemeItem theme in _themes)
+                    foreach (ThemeItem theme in _themeItems)
                     {
                         theme.IsSelected = theme.Theme == _preferredTheme;
                     }
@@ -84,7 +102,7 @@ namespace ThemeSelector
                 _activeTheme = theme;
                 Application.Current.Resources.MergedDictionaries.Clear();
                 Application.Current.Resources.MergedDictionaries.Add
-                (
+                (   
                     theme == AppTheme.Light ? LightTheme : DarkTheme
                 );
             }

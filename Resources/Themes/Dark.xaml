@@ -6,5 +6,9 @@
     <Color x:Key="PrimaryBackground">#212121</Color>
     <Color x:Key="PrimaryForeground">WhiteSmoke</Color>
     <Color x:Key="DisabledForeground">#ACACAC</Color>
-    
+
+    <Color x:Key="RadioSelected">FireBrick</Color>
+    <Color x:Key="RadioUnselected">WhiteSmoke</Color>
+
+
 </ResourceDictionary>

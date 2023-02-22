@@ -4,6 +4,15 @@
              xmlns:local="clr-namespace:ThemeSelector"
              x:Class="ThemeSelector.App">
     <Application.Resources>
-        <ResourceDictionary Source="Resources/Themes/Dark.xaml"/>
+        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Themes/Dark.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+        <x:Double x:Key="DefaultFontSize">20</x:Double>
+        
     </Application.Resources>
+    
 </Application>

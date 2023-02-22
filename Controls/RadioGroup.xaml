@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ThemeSelector.Controls"
+             xmlns:model="clr-namespace:ThemeSelector.Controls.Model"
+             x:Class="ThemeSelector.Controls.RadioGroup"
+             x:DataType="model:RadioGroupModel"
+             >
+    
+     <ContentView.Resources>
+
+        <DataTemplate x:Key="RadioItemTemplate">
+            <local:RadioItemView TextColor="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TextColor}"
+                                 DisabledTextColor="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=DisabledTextColor}"
+                                 SelectedColor="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=SelectedColor}"
+                                 />
+        </DataTemplate>
+
+    </ContentView.Resources>
+
+
+    <Grid>
+        <StackLayout x:Name="Items"
+                     HorizontalOptions="Fill"
+                     VerticalOptions="Fill"
+                     Orientation="Vertical"
+                     Spacing="5"
+                     Margin="0,0,0,0"
+                     Padding="0,0,0,0"
+                     BindableLayout.ItemsSource="{Binding Items}"
+                     BindableLayout.ItemTemplate="{StaticResource RadioItemTemplate}"
+                     />
+        </Grid>
+</ContentView>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ThemeSelector.Controls"
+             xmlns:model="clr-namespace:ThemeSelector.Controls.Model"
+             x:Class="ThemeSelector.Controls.RadioItemView"
+             x:DataType="model:RadioItem"
+             >
+    <ContentView.Resources>
+
+        <Style TargetType="Label"
+               x:Key="RadioText"
+               x:DataType="model:RadioItem"
+               >
+            <Setter Property="Text"
+                    Value="{Binding Text}"/>
+
+            <Setter Property="FontSize"
+                    Value="{StaticResource DefaultFontSize}"/>
+
+            <Setter Property="HorizontalTextAlignment"
+                    Value="Start"/>
+
+            <Setter Property="VerticalTextAlignment"
+                    Value="Center"
+                    />
+ 
+            <Setter Property="HorizontalOptions"
+                    Value="Fill"
+                    />
+            
+            <Setter Property="VerticalOptions"
+                    Value="Fill"
+                    />
+
+            <Style.Triggers>
+                <DataTrigger TargetType="Label"
+                             Binding="{Binding IsEnabled}"
+                             Value="True"
+                             >
+                    <Setter Property="TextColor"
+                            Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TextColor}"/>
+                </DataTrigger>
+
+                <DataTrigger TargetType="Label"
+                             Binding="{Binding IsEnabled}"
+                             Value="False"
+                             >
+                    <Setter Property="TextColor"
+                            Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=DisabledTextColor}"/>
+                </DataTrigger>
+                
+            </Style.Triggers>
+
+        </Style>
+
+        <Style TargetType="Ellipse"
+               x:Key="RadioIcon"
+               x:DataType="model:RadioItem"
+               >
+            <Setter Property="Fill"
+                    Value="Transparent"/>
+
+            <Setter Property="HeightRequest"
+                    Value="21"/>
+
+            <Setter Property="WidthRequest"
+                    Value="21"/>
+
+            <Setter Property="Stroke"
+                            Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TextColor}"/>
+            
+            <Style.Triggers>
+                <DataTrigger TargetType="Ellipse"
+                             Binding="{Binding IsSelected}"
+                             Value="True"
+                             >
+                    <Setter Property="StrokeThickness"
+                            Value="5"/>
+                </DataTrigger>
+
+                <DataTrigger TargetType="Ellipse"
+                             Binding="{Binding IsSelected}"
+                             Value="False"
+                             >
+                    <Setter Property="StrokeThickness"
+                            Value="2"/>
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
+        
+    </ContentView.Resources>
+        
+    <Grid HorizontalOptions="Fill"
+          VerticalOptions="Fill"
+          Margin="5,5,5,5"
+          >
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer NumberOfTapsRequired="1"
+                                  Tapped="OnTapped"
+                                  />
+        </Grid.GestureRecognizers>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Ellipse x:Name="Icon"
+                 Grid.Row="0"
+                 Style="{StaticResource RadioIcon}"
+                 />
+        
+        <Label x:Name="RadioLabel"
+               Grid.Column="2"
+               Style="{StaticResource RadioText}"
+               />
+    </Grid>
+</ContentView>

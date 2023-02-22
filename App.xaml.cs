@@ -56,15 +56,25 @@ public partial class App : Application
 
     #region Tracing
 
+    public static void Trace(object source, string memberName, object value)
+    {
+        Trace(source, memberName, "{0}", value);
+    }
+
     public static void Trace(string sourceName, string memberName, object value)
     {
-        Trace(sourceName, memberName, value is string message ? message : "{0}", value);
+        Trace(sourceName, memberName, value is string message ? message : "{0}", value ?? "[NULL]");
     }
-    
+
+    public static void Trace(object source, string memberName, string format, params object[] args)
+    {
+        Trace(source.GetType().Name, memberName, format, args);
+    }
+
     public static void Trace(string sourceName, string memberName, string format, params object[] args)
     {
         string message;
-        if (args.Length > 0)
+        if (format != null && args.Length > 0)
         {
             message = string.Format
             (
@@ -75,7 +85,7 @@ public partial class App : Application
         }
         else
         {
-            message = format;
+            message = format ?? string.Empty;
         }
         System.Diagnostics.Trace.WriteLine
         (

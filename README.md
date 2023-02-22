@@ -59,10 +59,25 @@ solves this.
 to set text and background colors.  SDK 30 definitely solves this but earlier targets
 may as well.
 
-# Future:
+# RadioButton and custom Themes:
 
 I'm finding RadioButton to be problematic when used with themes as illustrated in
-below issues. I'll use this application to test alternatives.
+below issues. 
+
+The MainPage displays two sets of RadioButtons. 
+
+1: The first group uses the MAUI RadioButton defines a style to set the RadioButton's 
+TextColor to my theme color.
+
+2: The second group uses a custom RadioGroup. This allows defining colors for the Text
+and the Ellipse drawn to indicated Check/Unchecked.
+
+When the application follows the system theme (AppTheme.Unspecialized), the RadioButton displays 
+reasonable colors when the system switches between light and dark.  When an explicit them
+is selected, parts of the Maui RadioButton do not change.
+
+This suggests there are color settings that the RadioButton uses that are not defined in my 
+custom themes under Resources\Themes.
 
 See https://github.com/dotnet/maui/issues/11709
  - Previously shown RadioButton with VisualState Manager becomes erratic after AppTheme is changed by user

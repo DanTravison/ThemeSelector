@@ -53,6 +53,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Controls\RadioGroup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\RadioItemView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Resources\Themes\Dark.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -62,7 +68,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="ObjectModel\" />
+	  <Compile Update="Controls\RadioItemView.xaml.cs">
+	    <DependentUpon>RadioItemView.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 </Project>

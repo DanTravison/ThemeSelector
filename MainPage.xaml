@@ -10,7 +10,111 @@
              >
 
     <ContentPage.Resources>
+
+        <Style TargetType="Ellipse"
+               x:Key="RadioEllipse"
+               x:DataType="RadioButton"
+               >
+            <Setter Property="Fill"
+                    Value="Transparent"/>
+            <Setter Property="HeightRequest"
+                    Value="21"/>
+            <Setter Property="WidthRequest"
+                    Value="21"/>
+            <!-- Update when Stroke DataTrigger issue resolved. -->
+            <Setter Property="Stroke"
+                            Value="{StaticResource PrimaryForegroundBrush}"/>
+            <Style.Triggers>
+                <DataTrigger TargetType="Ellipse"
+                             Binding="{Binding IsChecked}"
+                             Value="True"
+                             >
+                    <Setter Property="StrokeThickness"
+                            Value="5"/>
+                    <!-- Stroke brush is not updating reliably - don't know why
+                         The same issue occurs with RadioItemVIew.xaml
+                    <Setter Property="Stroke"
+                            Value="{StaticResource RadioButtonCheckedBrush}"/>
+                    -->
+                </DataTrigger>
+
+                <DataTrigger TargetType="Ellipse"
+                             Binding="{Binding IsChecked}"
+                             Value="False"
+                             >
+                    <Setter Property="StrokeThickness"
+                            Value="2"/>
+                    <!-- Stroke brush is not updating reliably
+                    <Setter Property="Stroke"
+                            Value="{StaticResource RadioButtonUncheckedBrush}"/>
+                    -->
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <ControlTemplate x:Key="RadioButtonControlTemplate">
+            <Grid Padding="5,5,5,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Ellipse Grid.Column="0" 
+                        Margin="5,0,0,0"
+                        Style="{StaticResource RadioEllipse}"
+                        BindingContext="{Binding Source={RelativeSource AncestorType={x:Type RadioButton}}}"
+                        />
+                <ContentPresenter Grid.Column="2"
+                                Margin="5,0,0,0"/>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="RadioButtonTemplatedStyle"
+               TargetType="RadioButton"
+               >
+            <Setter Property="ControlTemplate"
+                    Value="{StaticResource RadioButtonControlTemplate}"/>
+            <Setter Property="FontSize"
+                    Value="{StaticResource DefaultFontSize}"/>
+            <Setter Property="HorizontalOptions"
+                Value="Start" />
+            <Setter Property="TextColor"
+                    Value="{DynamicResource PrimaryForeground}" />
+        </Style>
+
+        <!-- Use a style with a control template -->
+        <DataTemplate x:Key="RadioButtonWithControlTemplate"
+                      x:DataType="local:ThemeItem">
+            <RadioButton Content="{Binding Text}"
+                         Value="{Binding Theme}"
+                         IsChecked="{Binding IsSelected}"
+                         Style="{StaticResource RadioButtonTemplatedStyle}"
+                         GroupName="GroupB"
+                         />
+        </DataTemplate>
+
+        <Style x:Key="RadioButtonStyle"
+               TargetType="RadioButton"
+               >
+            <Setter Property="FontSize"
+                Value="{StaticResource DefaultFontSize}" />
+            <Setter Property="HorizontalOptions"
+                Value="Start" />
+            <Setter Property="TextColor"
+                    Value="{DynamicResource PrimaryForeground}" />
+        </Style>
         
+        <!-- Use a style without a control template -->
+        <DataTemplate x:Key="RadioButtonTemplate"
+                      x:DataType="local:ThemeItem">
+            <RadioButton Content="{Binding Text}"
+                         Value="{Binding Theme}"
+                         IsChecked="{Binding IsSelected}"
+                         Style="{StaticResource RadioButtonStyle}"
+                         GroupName="GroupA"
+                         />
+        </DataTemplate>
+
         <Style x:Key="GroupBorderStyle"
                TargetType="Border"
                >
@@ -19,7 +123,7 @@
             <Setter Property="VerticalOptions"
                     Value="Fill"/>
             <Setter Property="Margin"
-                    Value="10,0,10,5"/>
+                    Value="10,5,10,5"/>
             <Setter Property="Stroke"
                     Value="{DynamicResource PrimaryForeground}"/>
             <Setter Property="BackgroundColor"
@@ -29,22 +133,11 @@
             </Setter>
         </Style>
 
-        <Style x:Key="RadioTextStyle"
-               TargetType="RadioButton"
-               >
-            <Setter Property="TextColor"
-                    Value="{DynamicResource PrimaryForeground}"/>
-            <Setter Property="BackgroundColor"
-                    Value="Transparent"/>
-            <Setter Property="FontSize"
-                Value="{StaticResource DefaultFontSize}" />
-            <Setter Property="HorizontalOptions"
-                Value="Start" />
-        </Style>
-
         <Style x:Key="GroupLabelTextStyle"
                TargetType="Label"
                >
+            <Setter Property="TextColor"
+                    Value="{DynamicResource PrimaryForeground}"/>
             <Setter Property="FontSize"
                 Value="{StaticResource DefaultFontSize}" />
             <Setter Property="FontAttributes"
@@ -52,15 +145,6 @@
             <Setter Property="Margin"
                     Value="5,5,0,5"/>
         </Style>
-
-        <DataTemplate x:Key="ThemeItemTemplate"
-                      x:DataType="local:ThemeItem">
-            <RadioButton Content="{Binding Text}"
-                         Value="{Binding Theme}"
-                         IsChecked="{Binding IsSelected}"
-                         Style="{StaticResource RadioTextStyle}"
-                         />
-        </DataTemplate>
 
     </ContentPage.Resources>
     
@@ -70,28 +154,65 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Use radio buttons with a control template -->
         <Border Grid.Row="0" 
                 Style="{StaticResource GroupBorderStyle}">
             <StackLayout Orientation="Vertical"
-                         Spacing="5"
-                         HorizontalOptions="Fill"
-                         VerticalOptions="Fill"
-                         BindableLayout.ItemsSource="{Binding ThemeItems}"
-                         BindableLayout.ItemTemplate="{StaticResource ThemeItemTemplate}"
-                         />
+                         Spacing="5">
+                
+                <Label Style="{StaticResource GroupLabelTextStyle}"
+                       Text="RadioButton with control template"/>
+
+                <StackLayout Orientation="Vertical"
+                             Spacing="5"
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Fill"
+                             BindableLayout.ItemsSource="{Binding ThemeItems}"
+                             BindableLayout.ItemTemplate="{StaticResource RadioButtonWithControlTemplate}"
+                             />
+            </StackLayout>
         </Border>
 
-        <Border Grid.Row="1"
+        <!-- Use radio buttons without a control template -->
+        <Border Grid.Row="1" 
                 Style="{StaticResource GroupBorderStyle}">
-            <controls:RadioGroup ItemsSource="{Binding Themes}"
-                                 SelectedValue="{Binding PreferredTheme}"
-                                 TextColor="{DynamicResource PrimaryForeground}"
-                                 DisabledTextColor="{DynamicResource DisabledForeground}"
-                                 SelectedColor="{DynamicResource PrimaryForeground}"
-                                 />      
+            <StackLayout Orientation="Vertical"
+                         Spacing="5">
+                
+                <Label Style="{StaticResource GroupLabelTextStyle}"
+                       Text="RadioButton without control template"/>
+
+                <StackLayout Orientation="Vertical"
+                             Spacing="5"
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Fill"
+                             BindableLayout.ItemsSource="{Binding ThemeItems}"
+                             BindableLayout.ItemTemplate="{StaticResource RadioButtonTemplate}"
+                             />
+            </StackLayout>
         </Border>
+        
+        <!-- Use a custom radio buttons group -->
+        <Border Grid.Row="2"
+                Style="{StaticResource GroupBorderStyle}">
+            <StackLayout Orientation="Vertical"
+                         Spacing="5">
+                
+                <Label Style="{StaticResource GroupLabelTextStyle}"
+                       Text="Custom radio buttons"/>
+                
+                <controls:RadioGroup ItemsSource="{Binding Themes}"
+                                     SelectedValue="{Binding PreferredTheme}"
+                                     TextColor="{DynamicResource PrimaryForeground}"
+                                     DisabledTextColor="{DynamicResource DisabledForeground}"
+                                     SelectedColor="{DynamicResource PrimaryForeground}"
+                                     />
+
+            </StackLayout>
+         </Border>
     </Grid>
 
 </ContentPage>

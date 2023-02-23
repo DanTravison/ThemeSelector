@@ -6,6 +6,8 @@ public partial class MainPage : ContentPage
 	{
 		BindingContext = new MainViewModel();
 		InitializeComponent();
+
+		((MainViewModel)BindingContext).PreferredTheme = AppTheme.Unspecified;
 	}
 }
 

@@ -7,7 +7,7 @@
     <Color x:Key="PrimaryForeground">#212121</Color>
     <Color x:Key="DisabledForeground">#ACACAC</Color>
 
-    <Color x:Key="RadioSelected">FireBrick</Color>
-    <Color x:Key="RadioUnselected">#212121</Color>
+    <Color x:Key="RadioButtonUncheckedColor">#212121</Color>
+    <Color x:Key="RadioButtonCheckedColor">#DB9EE5</Color>
 
 </ResourceDictionary>

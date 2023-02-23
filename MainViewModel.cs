@@ -20,7 +20,7 @@ namespace ThemeSelector
 
         public MainViewModel()
         {
-            _themeItems.Add(new ("System", OnThemeSelected, AppTheme.Unspecified, true));
+            _themeItems.Add(new ("System", OnThemeSelected, AppTheme.Unspecified));
             _themeItems.Add(new (nameof(AppTheme.Light), OnThemeSelected, AppTheme.Light));
             _themeItems.Add(new (nameof(AppTheme.Dark), OnThemeSelected, AppTheme.Dark));
             ThemeItems = new (_themeItems);

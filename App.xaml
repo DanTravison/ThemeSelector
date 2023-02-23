@@ -6,13 +6,20 @@
     <Application.Resources>
         
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Themes/Dark.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="Resources/Themes/Dark.xaml"/>
         </ResourceDictionary>
 
         <x:Double x:Key="DefaultFontSize">20</x:Double>
-        
+
+        <SolidColorBrush x:Key="RadioButtonUncheckedBrush"
+                         Color="{DynamicResource RadioButtonUncheckedColor}"/>
+
+        <SolidColorBrush x:Key="RadioButtonCheckedBrush"
+                         Color="{DynamicResource RadioButtonCheckedColor}"/>
+
+        <SolidColorBrush x:Key="PrimaryForegroundBrush"
+                         Color="{DynamicResource PrimaryForeground}"/>
+
     </Application.Resources>
     
 </Application>

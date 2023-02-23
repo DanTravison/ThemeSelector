@@ -64,6 +64,8 @@
                     Value="21"/>
             <Setter Property="WidthRequest"
                     Value="21"/>
+            <Setter Property="Aspect"
+                    Value="Uniform"/>
             <Setter Property="Stroke"
                             Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TextColor}"/>
             <Style.Triggers>
@@ -90,7 +92,6 @@
         
     <Grid HorizontalOptions="Fill"
           VerticalOptions="Fill"
-          Margin="10,5,5,5"
           >
         <Grid.GestureRecognizers>
             <TapGestureRecognizer NumberOfTapsRequired="1"

@@ -19,13 +19,13 @@
     </ContentView.Resources>
 
 
-    <Grid>
+    <Grid Margin="5,0,0,5">
         <StackLayout x:Name="Items"
                      HorizontalOptions="Fill"
                      VerticalOptions="Fill"
                      Orientation="Vertical"
                      Spacing="5"
-                     Margin="0,0,0,0"
+                     Margin="5,0,0,0"
                      Padding="0,0,0,0"
                      BindableLayout.ItemsSource="{Binding Items}"
                      BindableLayout.ItemTemplate="{StaticResource RadioItemTemplate}"

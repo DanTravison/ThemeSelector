@@ -83,6 +83,14 @@ is selected, parts of the Maui RadioButton do not change.
 This suggests there are color settings that the RadioButton uses that are not defined in my 
 custom themes under Resources\Themes.
 
+Additionally, in RadioButton with a ControlTemplate, attempting to mirror the Ellipse color with the 
+color used by the non-templated RadioButton fails in that the Ellipse does not reliably draw with the 
+theme color.  I've seen similar behavior when I defined a Checked and Unchecked color on the RadioGroup.
+Setting these to anything other than Primary Foreground/Background produces the same unpredictable results.
+
+Is there a bug in Ellipse or in my Bindings logic. I dig further into this.
+
+
 See https://github.com/dotnet/maui/issues/11709
  - Previously shown RadioButton with VisualState Manager becomes erratic after AppTheme is changed by user
 

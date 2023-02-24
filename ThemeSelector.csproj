@@ -56,7 +56,7 @@
 	  <MauiXaml Update="Controls\RadioGroup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\RadioItemView.xaml">
+	  <MauiXaml Update="Controls\RadioItem.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Themes\Dark.xaml">
@@ -68,8 +68,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Controls\RadioItemView.xaml.cs">
-	    <DependentUpon>RadioItemView.xaml</DependentUpon>
+	  <Compile Update="Controls\RadioItem.xaml.cs">
+	    <DependentUpon>RadioItem.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 

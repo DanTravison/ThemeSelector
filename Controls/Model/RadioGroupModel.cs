@@ -12,10 +12,10 @@ namespace ThemeSelector.Controls.Model
     {
         #region Fields
 
-        RadioItem _selectedItem;
+        RadioItemModel _selectedItem;
         IEnumerable _itemsSource;
         TypeConverter _converter;
-        readonly ObservableCollection<RadioItem> _items = new();
+        readonly ObservableCollection<RadioItemModel> _items = new();
 
         #endregion Fields
 
@@ -63,9 +63,9 @@ namespace ThemeSelector.Controls.Model
                 int index = IndexOf(value);
                 if (index != -1)
                 {
-                    RadioItem item = _items[index];
-                    item.IsSelected = true;
-                    UpdateSelected(item);
+                    RadioItemModel item = _items[index];
+                    item.IsChecked = true;
+                    UpdateSelectedItem(item);
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace ThemeSelector.Controls.Model
                 {
                     App.Trace(this, nameof(Converter), value == null ? "[NULL]" : value.GetType().Name);
                     _converter = value;
-                    foreach (RadioItem item in _items)
+                    foreach (RadioItemModel item in _items)
                     {
                         item.Converter = _converter;
                     }
@@ -94,7 +94,7 @@ namespace ThemeSelector.Controls.Model
         /// <summary>
         /// Gets the ReadOnlyObservableCollection{RadioItem} collection of items.
         /// </summary>
-        public ReadOnlyObservableCollection<RadioItem> Items
+        public ReadOnlyObservableCollection<RadioItemModel> Items
         {
             get;
         }
@@ -144,19 +144,19 @@ namespace ThemeSelector.Controls.Model
         }
 
         /// <summary>
-        /// Updates the <see cref="RadioItem.IsSelected"/> property
+        /// Updates the <see cref="RadioItemModel.IsChecked"/> property
         /// when <see cref="SelectedValue"/> changes.
         /// </summary>
         /// <param name="target"></param>
-        void UpdateSelected(RadioItem target)
+        void UpdateSelectedItem(RadioItemModel target)
         {
-            App.Trace(this, nameof(UpdateSelected), target?.Value);
+            App.Trace(this, nameof(UpdateSelectedItem), target?.Value);
             _selectedItem = target;
-            foreach (RadioItem item in Items)
+            foreach (RadioItemModel item in Items)
             {
                 if (!object.ReferenceEquals(item, target))
                 {
-                    item.IsSelected = false;
+                    item.IsChecked = false;
                 }
             }
             OnPropertyChanged(SelectedValueChangedEventArgs);
@@ -168,12 +168,12 @@ namespace ThemeSelector.Controls.Model
 
         private void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (ReferenceEquals(e, RadioItem.IsSelectedChangedEventArgs))
+            if (ReferenceEquals(e, RadioItemModel.IsCheckedChangedEventArgs))
             {
-                RadioItem item = (RadioItem)sender;
-                if (item.IsSelected)
+                RadioItemModel item = (RadioItemModel)sender;
+                if (item.IsChecked)
                 {
-                    UpdateSelected(item);
+                    UpdateSelectedItem(item);
                 }
             }
         }
@@ -183,31 +183,31 @@ namespace ThemeSelector.Controls.Model
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    Added((RadioItem)e.NewItems[0]);
+                    Added((RadioItemModel)e.NewItems[0]);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    Removed((RadioItem)e.OldItems[0]);
+                    Removed((RadioItemModel)e.OldItems[0]);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    foreach (RadioItem item in Items)
+                    foreach (RadioItemModel item in Items)
                     {
                         Removed(item);
                     }
                     break;
                 case NotifyCollectionChangedAction.Replace:
-                    Added((RadioItem)e.NewItems[0]);
-                    Removed((RadioItem)e.OldItems[0]);
+                    Added((RadioItemModel)e.NewItems[0]);
+                    Removed((RadioItemModel)e.OldItems[0]);
                     break;
             }
         }
 
-        void Added(RadioItem item)
+        void Added(RadioItemModel item)
         {
             item.PropertyChanged += OnItemPropertyChanged;
             item.Parent = this;
         }
 
-        void Removed(RadioItem item)
+        void Removed(RadioItemModel item)
         {
             item.PropertyChanged -= OnItemPropertyChanged;
             item.Parent = null;

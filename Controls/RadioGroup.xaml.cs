@@ -28,20 +28,41 @@ public partial class RadioGroup : ContentView
     }
 
     /// <summary>
-    /// Gets or sets the color to use to draw the items Selected image.
+    /// Gets or sets the color to use to draw the checked image.
     /// </summary>
-    public Color SelectedColor
+    public Color CheckedColor
     {
-        get => (Color)GetValue(SelectedColorProperty);
-        set => SetValue(SelectedColorProperty, value);
+        get => (Color)GetValue(CheckedColorProperty);
+        set => SetValue(CheckedColorProperty, value);
     }
 
     /// <summary>
-    /// Defines the <see cref="BindableProperty"/> for the <see cref="SelectedColor"/>.
+    /// Defines the <see cref="BindableProperty"/> for the <see cref="CheckedColor"/>.
     /// </summary>
-    public static readonly BindableProperty SelectedColorProperty = BindableProperty.Create
+    public static readonly BindableProperty CheckedColorProperty = BindableProperty.Create
     (
-        nameof(SelectedColor),
+        nameof(CheckedColor),
+        typeof(Color),
+        typeof(RadioGroup),
+        Colors.White,
+        BindingMode.OneWay
+    );
+
+    /// <summary>
+    /// Gets or sets the color to use to draw the unchecked image.
+    /// </summary>
+    public Color UncheckedColor
+    {
+        get => (Color)GetValue(UncheckedColorProperty);
+        set => SetValue(UncheckedColorProperty, value);
+    }
+
+    /// <summary>
+    /// Defines the <see cref="BindableProperty"/> for the <see cref="UncheckedColor"/>.
+    /// </summary>
+    public static readonly BindableProperty UncheckedColorProperty = BindableProperty.Create
+    (
+        nameof(UncheckedColor),
         typeof(Color),
         typeof(RadioGroup),
         Colors.White,
@@ -156,7 +177,7 @@ public partial class RadioGroup : ContentView
     );
 
     /// <summary>
-    /// Gets or sets the <see cref="RadioItem"/> to use to populate the control.
+    /// Gets or sets the <see cref="RadioItemModel"/> to use to populate the control.
     /// </summary>
     public object SelectedValue
     {

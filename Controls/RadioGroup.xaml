@@ -9,11 +9,13 @@
     
      <ContentView.Resources>
 
-        <DataTemplate x:Key="RadioItemTemplate">
-            <local:RadioItemView TextColor="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TextColor}"
-                                 DisabledTextColor="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=DisabledTextColor}"
-                                 SelectedColor="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=SelectedColor}"
-                                 />
+        <DataTemplate x:Key="RadioItemTemplate" x:DataType="model:RadioItemModel">
+            <local:RadioItem TextColor="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TextColor}"
+                             DisabledTextColor="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=DisabledTextColor}"
+                             IsChecked="{Binding IsChecked}"
+                             Text="{Binding Text}"
+                             IsEnabled="{Binding IsEnabled}"
+                             />
         </DataTemplate>
 
     </ContentView.Resources>

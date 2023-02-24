@@ -209,7 +209,8 @@
                                      SelectedValue="{Binding PreferredTheme}"
                                      TextColor="{DynamicResource PrimaryForeground}"
                                      DisabledTextColor="{DynamicResource DisabledForeground}"
-                                     SelectedColor="{DynamicResource PrimaryForeground}"
+                                     CheckedColor="{DynamicResource RadioButtonCheckedColor}"
+                                     UncheckedColor="{DynamicResource RadioButtonUncheckedColor}"
                                      />
 
             </StackLayout>

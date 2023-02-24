@@ -2,11 +2,11 @@
 
 namespace ThemeSelector.Controls.Model
 {
-    public sealed class RadioItem : ObservableObject
+    public sealed class RadioItemModel : ObservableObject
     {
         readonly object _value;
         string _text;
-        bool _isSelected;
+        bool _isChecked;
         bool _isEnabled;
         TypeConverter _converter;
 
@@ -15,11 +15,11 @@ namespace ThemeSelector.Controls.Model
         /// </summary>
         /// <param name="value">The <see cref="Value"/> value.</param>
         /// <param name="isEnabled">The <see cref="IsEnabled"/> value.</param>
-        /// <param name="isSelected">The <see cref="IsSelected"/> value.</param>
-        internal RadioItem(object value, bool isEnabled = true, bool isSelected = false)
+        /// <param name="isChecked">The <see cref="IsChecked"/> value.</param>
+        internal RadioItemModel(object value, bool isEnabled = true, bool isChecked = false)
         {
             _value = value;
-            _isSelected = isSelected;
+            _isChecked = isChecked;
             _isEnabled = isEnabled;
         }
 
@@ -28,12 +28,12 @@ namespace ThemeSelector.Controls.Model
         /// </summary>
         /// <param name="value">The <see cref="Value"/> value.</param>
         /// <param name="isEnabled">The <see cref="IsEnabled"/> value.</param>
-        /// <param name="isSelected">The <see cref="IsSelected"/> value.</param>
+        /// <param name="isChecked">The <see cref="IsChecked"/> value.</param>
         /// <param name="converter">The <see cref="Converter"/> value.</param>
-        internal RadioItem(object value, TypeConverter converter, bool isEnabled = true, bool isSelected = false)
+        internal RadioItemModel(object value, TypeConverter converter, bool isEnabled = true, bool isChecked = false)
         {
             _value = value;
-            _isSelected = isSelected;
+            _isChecked = isChecked;
             _isEnabled = isEnabled;
             _converter = converter;
         }
@@ -55,13 +55,10 @@ namespace ThemeSelector.Controls.Model
         /// <summary>
         /// Gets the value indicating if the theme is selected.
         /// </summary>
-        public bool IsSelected
+        public bool IsChecked
         {
-            get => _isSelected;
-            internal set
-            {
-                SetProperty(ref _isSelected, value, IsSelectedChangedEventArgs);
-            }
+            get => _isChecked;
+            set => SetProperty(ref _isChecked, value, IsCheckedChangedEventArgs);
         }
 
         /// <summary>
@@ -118,9 +115,9 @@ namespace ThemeSelector.Controls.Model
         }
 
         /// <summary>
-        /// The <see cref="PropertyChangedEventArgs"/> passed to <see cref="INotifyPropertyChanged.PropertyChanged"/> when <see cref="IsSelected"/> changes.
+        /// The <see cref="PropertyChangedEventArgs"/> passed to <see cref="INotifyPropertyChanged.PropertyChanged"/> when <see cref="IsChecked"/> changes.
         /// </summary>
-        public static readonly PropertyChangedEventArgs IsSelectedChangedEventArgs = new(nameof(IsSelected));
+        public static readonly PropertyChangedEventArgs IsCheckedChangedEventArgs = new(nameof(IsChecked));
 
         /// <summary>
         /// The <see cref="PropertyChangedEventArgs"/> passed to <see cref="INotifyPropertyChanged.PropertyChanged"/> when <see cref="IsEnabled"/> changes.

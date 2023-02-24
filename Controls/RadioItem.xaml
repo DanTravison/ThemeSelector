@@ -2,15 +2,15 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ThemeSelector.Controls"
-             xmlns:model="clr-namespace:ThemeSelector.Controls.Model"
-             x:Class="ThemeSelector.Controls.RadioItemView"
-             x:DataType="model:RadioItem"
+             x:Name="this"
+             x:Class="ThemeSelector.Controls.RadioItem"
+             x:DataType="local:RadioItem"
              >
     <ContentView.Resources>
 
         <Style TargetType="Label"
                x:Key="RadioText"
-               x:DataType="model:RadioItem"
+               x:DataType="local:RadioItem"
                >
             <Setter Property="Text"
                     Value="{Binding Text}"/>
@@ -39,7 +39,7 @@
                              Value="True"
                              >
                     <Setter Property="TextColor"
-                            Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TextColor}"/>
+                            Value="{Binding TextColor}"/>
                 </DataTrigger>
 
                 <DataTrigger TargetType="Label"
@@ -47,19 +47,16 @@
                              Value="False"
                              >
                     <Setter Property="TextColor"
-                            Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=DisabledTextColor}"/>
+                            Value="{Binding DisabledTextColor}"/>
                 </DataTrigger>
-                
             </Style.Triggers>
 
         </Style>
 
         <Style TargetType="Ellipse"
                x:Key="RadioIcon"
-               x:DataType="model:RadioItem"
+               x:DataType="local:RadioItem"
                >
-            <Setter Property="Fill"
-                    Value="Transparent"/>
             <Setter Property="HeightRequest"
                     Value="21"/>
             <Setter Property="WidthRequest"
@@ -67,10 +64,10 @@
             <Setter Property="Aspect"
                     Value="Uniform"/>
             <Setter Property="Stroke"
-                            Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TextColor}"/>
+                            Value="{Binding TextColor}"/>
             <Style.Triggers>
                 <DataTrigger TargetType="Ellipse"
-                             Binding="{Binding IsSelected}"
+                             Binding="{Binding IsChecked}"
                              Value="True"
                              >
                     <Setter Property="StrokeThickness"
@@ -78,7 +75,7 @@
                 </DataTrigger>
 
                 <DataTrigger TargetType="Ellipse"
-                             Binding="{Binding IsSelected}"
+                             Binding="{Binding IsChecked}"
                              Value="False"
                              >
                     <Setter Property="StrokeThickness"
@@ -92,6 +89,7 @@
         
     <Grid HorizontalOptions="Fill"
           VerticalOptions="Fill"
+          BindingContext="{x:Reference this}"
           >
         <Grid.GestureRecognizers>
             <TapGestureRecognizer NumberOfTapsRequired="1"

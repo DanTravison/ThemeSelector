@@ -14,7 +14,6 @@ namespace ThemeSelector.Controls.Model
 
         RadioItemModel _selectedItem;
         IEnumerable _itemsSource;
-        TypeConverter _converter;
         readonly ObservableCollection<RadioItemModel> _items = new();
 
         #endregion Fields
@@ -71,27 +70,6 @@ namespace ThemeSelector.Controls.Model
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="TypeConverter"/> to use to convert ItemsSource objects to text.
-        /// </summary>
-        public TypeConverter Converter
-        {
-            get => _converter;
-            set
-            {
-                if (!ReferenceEquals(_converter, value))
-                {
-                    App.Trace(this, nameof(Converter), value == null ? "[NULL]" : value.GetType().Name);
-                    _converter = value;
-                    foreach (RadioItemModel item in _items)
-                    {
-                        item.Converter = _converter;
-                    }
-                    OnPropertyChanged(ConverterChangedEventArgs);
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets the ReadOnlyObservableCollection{RadioItem} collection of items.
         /// </summary>
         public ReadOnlyObservableCollection<RadioItemModel> Items
@@ -137,7 +115,7 @@ namespace ThemeSelector.Controls.Model
             {
                 foreach (object value in _itemsSource)
                 {
-                    _items.Add(new(value, Converter));
+                    _items.Add(new(value));
                 }
                 App.Trace(this, nameof(PopulateItems), _items.Count);
             }
@@ -204,13 +182,11 @@ namespace ThemeSelector.Controls.Model
         void Added(RadioItemModel item)
         {
             item.PropertyChanged += OnItemPropertyChanged;
-            item.Parent = this;
         }
 
         void Removed(RadioItemModel item)
         {
             item.PropertyChanged -= OnItemPropertyChanged;
-            item.Parent = null;
             if (object.ReferenceEquals(_selectedItem, item))
             {
                 _selectedItem = null;
@@ -231,11 +207,6 @@ namespace ThemeSelector.Controls.Model
         /// The <see cref="PropertyChangedEventArgs"/> passed to <see cref="INotifyPropertyChanged.PropertyChanged"/> when <see cref="ItemsSource"/> changes.
         /// </summary>
         public static readonly PropertyChangedEventArgs ItemsSourceChangedEventArgs = new(nameof(ItemsSource));
-
-        /// <summary>
-        /// The <see cref="PropertyChangedEventArgs"/> passed to <see cref="INotifyPropertyChanged.PropertyChanged"/> when <see cref="Converter"/> changes.
-        /// </summary>
-        public static readonly PropertyChangedEventArgs ConverterChangedEventArgs = new(nameof(Converter));
 
         #endregion Cached PropertyChangedEventArgs
     }

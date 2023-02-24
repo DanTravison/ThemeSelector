@@ -22,53 +22,42 @@ public partial class RadioGroup : ContentView
         }
     }
 
+    protected override void OnChildAdded(Element child)
+    {
+        if (ItemTemplate == null)
+        {
+            this.Resources.TryGetValue("RadioItemItemTemplate", out object template);
+            ItemTemplate = (DataTemplate)template;
+        }
+        base.OnChildAdded(child);
+    }
+
     RadioGroupModel Model
     {
         get;
     }
 
     /// <summary>
-    /// Gets or sets the color to use to draw the checked image.
+    /// Gets or sets <see cref="DataTemplate"/> for <see cref="RadioItem"/> content.
     /// </summary>
-    public Color CheckedColor
+    public DataTemplate ItemTemplate
     {
-        get => (Color)GetValue(CheckedColorProperty);
-        set => SetValue(CheckedColorProperty, value);
+        get => GetValue(ItemTemplateProperty) as DataTemplate;
+        set => SetValue(ItemTemplateProperty, value);
     }
 
     /// <summary>
-    /// Defines the <see cref="BindableProperty"/> for the <see cref="CheckedColor"/>.
+    /// Defines the <see cref="BindableProperty"/> for the <see cref="ItemTemplate"/>.
     /// </summary>
-    public static readonly BindableProperty CheckedColorProperty = BindableProperty.Create
+    public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create
     (
-        nameof(CheckedColor),
-        typeof(Color),
-        typeof(RadioGroup),
-        Colors.White,
-        BindingMode.OneWay
+        nameof(ItemTemplate),
+        typeof(DataTemplate),
+        typeof(RadioItem),
+        null,
+        BindingMode.TwoWay
     );
-
-    /// <summary>
-    /// Gets or sets the color to use to draw the unchecked image.
-    /// </summary>
-    public Color UncheckedColor
-    {
-        get => (Color)GetValue(UncheckedColorProperty);
-        set => SetValue(UncheckedColorProperty, value);
-    }
-
-    /// <summary>
-    /// Defines the <see cref="BindableProperty"/> for the <see cref="UncheckedColor"/>.
-    /// </summary>
-    public static readonly BindableProperty UncheckedColorProperty = BindableProperty.Create
-    (
-        nameof(UncheckedColor),
-        typeof(Color),
-        typeof(RadioGroup),
-        Colors.White,
-        BindingMode.OneWay
-    );
-
+    
     /// <summary>
     /// Gets or sets the color to draw text.
     /// </summary>
@@ -135,43 +124,6 @@ public partial class RadioGroup : ContentView
             if (bindableObject is RadioGroup control)
             {
                 control.Model.ItemsSource = newValue as IEnumerable;
-            }
-        }
-    );
-
-    /// <summary>
-    /// Provides a <see cref="TypeConverter"/> for converting values in the 
-    /// <see cref="ItemsSource"/> to text.
-    /// </summary>
-    public TypeConverter TextConverter
-    {
-        get => GetValue(TextConverterProperty) as TypeConverter;
-        set => SetValue(TextConverterProperty, value);
-    }
-
-    /// <summary>
-    /// Provides the backing store for the <see cref="TextConverter"/> property.
-    /// </summary>
-    public static readonly BindableProperty TextConverterProperty = BindableProperty.Create
-    (
-        nameof(TextConverter),
-        typeof(TypeConverter),
-        typeof(RadioGroup),
-        null,
-        BindingMode.OneWay,
-        validateValue: (bindableObject, value) =>
-        {
-            if (value is TypeConverter converter)
-            {
-                return converter.CanConvertTo(typeof(string));
-            }
-            return true;
-        },
-        propertyChanged: (bindableObject, oldValue, newValue) =>
-        {
-            if (bindableObject is RadioGroup control)
-            {
-                control.Model.Converter = newValue as TypeConverter;
             }
         }
     );

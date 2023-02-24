@@ -69,8 +69,12 @@ The MainPage displays two sets of RadioButtons.
 1: The first group uses the MAUI RadioButton defines a style to set the RadioButton's 
 TextColor to my theme color.
 
-2: The second group uses a custom RadioGroup. This allows defining colors for the Text
-and the Ellipse drawn to indicated Check/Unchecked.
+2: The second group uses the MAUI RadioButton with a control template.
+
+3: The third group uses a custom RadioGroup. This ties the radio ellipse color
+to the TextColor.  IsChecked is indicated by drawing a thicker ellipse.
+
+3: The fourth group uses a custom RadioGroup with an ItemTemplate.
 
 When the application follows the system theme (AppTheme.Unspecialized), the RadioButton displays 
 reasonable colors when the system switches between light and dark.  When an explicit them
@@ -84,4 +88,3 @@ See https://github.com/dotnet/maui/issues/11709
 
 See https://github.com/dotnet/maui/issues/11747
  - iOS Radio Button displays with same black coloring in Dark Mode
-

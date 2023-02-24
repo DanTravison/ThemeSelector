@@ -9,12 +9,62 @@
     
      <ContentView.Resources>
 
+        <Style TargetType="Label"
+               x:Key="RadioText"
+               x:DataType="local:RadioItem"
+               >
+            <Setter Property="Text"
+                    Value="{Binding Path=Value, StringFormat='{0}'}"/>
+
+            <Setter Property="FontSize"
+                    Value="{StaticResource DefaultFontSize}"/>
+
+            <Setter Property="HorizontalTextAlignment"
+                    Value="Start"/>
+
+            <Setter Property="VerticalTextAlignment"
+                    Value="Center"
+                    />
+
+            <Setter Property="HorizontalOptions"
+                    Value="Fill"
+                    />
+
+            <Setter Property="VerticalOptions"
+                    Value="Fill"
+                    />
+
+            <Style.Triggers>
+                <DataTrigger TargetType="Label"
+                             Binding="{Binding IsEnabled}"
+                             Value="True"
+                             >
+                    <Setter Property="TextColor"
+                            Value="{Binding TextColor}"/>
+                </DataTrigger>
+
+                <DataTrigger TargetType="Label"
+                             Binding="{Binding IsEnabled}"
+                             Value="False"
+                             >
+                    <Setter Property="TextColor"
+                            Value="{Binding DisabledTextColor}"/>
+                </DataTrigger>
+            </Style.Triggers>
+
+        </Style>
+
+        <DataTemplate x:Key="RadioItemItemTemplate">
+            <Label Style="{StaticResource RadioText}"/>
+        </DataTemplate>
+
         <DataTemplate x:Key="RadioItemTemplate" x:DataType="model:RadioItemModel">
             <local:RadioItem TextColor="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TextColor}"
                              DisabledTextColor="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=DisabledTextColor}"
                              IsChecked="{Binding IsChecked}"
-                             Text="{Binding Text}"
+                             Value="{Binding Value}"
                              IsEnabled="{Binding IsEnabled}"
+                             ItemTemplate="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=ItemTemplate}"
                              />
         </DataTemplate>
 

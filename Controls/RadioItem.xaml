@@ -8,51 +8,6 @@
              >
     <ContentView.Resources>
 
-        <Style TargetType="Label"
-               x:Key="RadioText"
-               x:DataType="local:RadioItem"
-               >
-            <Setter Property="Text"
-                    Value="{Binding Text}"/>
-
-            <Setter Property="FontSize"
-                    Value="{StaticResource DefaultFontSize}"/>
-
-            <Setter Property="HorizontalTextAlignment"
-                    Value="Start"/>
-
-            <Setter Property="VerticalTextAlignment"
-                    Value="Center"
-                    />
- 
-            <Setter Property="HorizontalOptions"
-                    Value="Fill"
-                    />
-            
-            <Setter Property="VerticalOptions"
-                    Value="Fill"
-                    />
-
-            <Style.Triggers>
-                <DataTrigger TargetType="Label"
-                             Binding="{Binding IsEnabled}"
-                             Value="True"
-                             >
-                    <Setter Property="TextColor"
-                            Value="{Binding TextColor}"/>
-                </DataTrigger>
-
-                <DataTrigger TargetType="Label"
-                             Binding="{Binding IsEnabled}"
-                             Value="False"
-                             >
-                    <Setter Property="TextColor"
-                            Value="{Binding DisabledTextColor}"/>
-                </DataTrigger>
-            </Style.Triggers>
-
-        </Style>
-
         <Style TargetType="Ellipse"
                x:Key="RadioIcon"
                x:DataType="local:RadioItem"
@@ -84,33 +39,36 @@
 
             </Style.Triggers>
         </Style>
-        
-    </ContentView.Resources>
-        
-    <Grid HorizontalOptions="Fill"
-          VerticalOptions="Fill"
-          BindingContext="{x:Reference this}"
-          >
-        <Grid.GestureRecognizers>
-            <TapGestureRecognizer NumberOfTapsRequired="1"
-                                  Tapped="OnTapped"
-                                  />
-        </Grid.GestureRecognizers>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <Ellipse x:Name="Icon"
-                 Grid.Row="0"
-                 Style="{StaticResource RadioIcon}"
-                 />
-        
-        <Label x:Name="RadioLabel"
-               Grid.Column="2"
-               Style="{StaticResource RadioText}"
-               />
-    </Grid>
+    </ContentView.Resources>
+
+    <ContentView.ControlTemplate>
+        <ControlTemplate>
+            <Grid HorizontalOptions="Fill"
+                  VerticalOptions="Fill"
+                  BindingContext="{x:Reference this}"
+                  >   
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1"
+                                          Tapped="OnTapped" />
+                </Grid.GestureRecognizers>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Ellipse x:Name="Icon"
+                         Grid.Column="0"
+                         Style="{StaticResource RadioIcon}"/>
+
+                <ContentPresenter x:Name="Presenter" 
+                                  HorizontalOptions="Fill"
+                                  VerticalOptions="Fill"
+                                  Grid.Column="2" />
+            </Grid>
+        </ControlTemplate>
+    </ContentView.ControlTemplate>
+       
 </ContentView>

@@ -12,6 +12,56 @@ public partial class RadioItem : ContentView
     /// <summary>
     /// Gets or sets the command to execute when the control is tapped.
     /// </summary>
+    public DataTemplate ItemTemplate
+    {
+        get => GetValue(ItemTemplateProperty) as DataTemplate;
+        set => SetValue(ItemTemplateProperty, value);
+    }
+
+    /// <summary>
+    /// Defines the <see cref="BindableProperty"/> for the <see cref="IsChecked"/>.
+    /// </summary>
+    public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create
+    (
+        nameof(ItemTemplate),
+        typeof(DataTemplate),
+        typeof(RadioItem),
+        null,
+        BindingMode.TwoWay,
+        propertyChanged: (bindableObject, oldValue, newValue) =>
+        {
+            ((RadioItem)bindableObject).OnItemTemplateChanged();
+        }
+     );
+
+    void OnItemTemplateChanged()
+    {
+        if (ItemTemplate != null)
+        {
+            object value = ItemTemplate.CreateContent();
+            if (value is View view)
+            {
+                Content = view;
+                view.BindingContext = this;
+            }
+            else
+            {
+                App.Trace
+                (
+                    this, 
+                    nameof(ItemTemplate), 
+                    "ItemTemplate.CreateContent returned a {0} instead of a View for {1}", 
+                    value.GetType().FullName,
+                    Text
+                );
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Gets or sets the command to execute when the control is tapped.
+    /// </summary>
     public ICommand Command
     {
         get => GetValue(CommandProperty) as ICommand;
@@ -59,6 +109,28 @@ public partial class RadioItem : ContentView
     {
         App.Trace(this, nameof(IsChecked), IsChecked);
     }
+ 
+    /// <summary>
+    /// Gets or sets the color to use to fill the drawn area.
+    /// </summary>
+    public object Value
+    {
+        get => GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
+
+    /// <summary>
+    /// Defines the <see cref="BindableProperty"/> for the <see cref="Value"/>.
+    /// </summary>
+    public static readonly BindableProperty ValueProperty = BindableProperty.Create
+    (
+        nameof(Value),
+        typeof(object),
+        typeof(RadioItem),
+        null,
+        BindingMode.OneWay
+    );
+
 
     /// <summary>
     /// Gets or sets the color to use to fill the drawn area.

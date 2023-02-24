@@ -24,27 +24,6 @@ namespace ThemeSelector.Controls.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
-        /// <param name="value">The <see cref="Value"/> value.</param>
-        /// <param name="isEnabled">The <see cref="IsEnabled"/> value.</param>
-        /// <param name="isChecked">The <see cref="IsChecked"/> value.</param>
-        /// <param name="converter">The <see cref="Converter"/> value.</param>
-        internal RadioItemModel(object value, TypeConverter converter, bool isEnabled = true, bool isChecked = false)
-        {
-            _value = value;
-            _isChecked = isChecked;
-            _isEnabled = isEnabled;
-            _converter = converter;
-        }
-
-        internal object Parent
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets the value for this instance.
         /// </summary>
         public object Value

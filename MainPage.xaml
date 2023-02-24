@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:ThemeSelector"
              xmlns:controls="clr-namespace:ThemeSelector.Controls"
              xmlns:am="clr-namespace:Microsoft.Maui.ApplicationModel;assembly=Microsoft.Maui.Essentials"
+             xmlns:converter="clr-namespace:ThemeSelector.Converter"
              x:Class="ThemeSelector.MainPage"
              x:DataType="local:MainViewModel"
              BackgroundColor="{DynamicResource PrimaryBackground}"
@@ -35,7 +36,7 @@
                     <Setter Property="StrokeThickness"
                             Value="5"/>
                     <!-- Stroke brush is not updating reliably - don't know why
-                         The same issue occurs with RadioItemVIew.xaml
+                         The same issue occurs with RadioItem.xaml
                     <Setter Property="Stroke"
                             Value="{StaticResource RadioButtonCheckedBrush}"/>
                     -->
@@ -56,7 +57,7 @@
         </Style>
 
         <ControlTemplate x:Key="RadioButtonControlTemplate">
-            <Grid Padding="10,0,0,5">
+            <Grid Padding="5,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="5"/>
@@ -73,6 +74,8 @@
         <Style x:Key="RadioButtonTemplatedStyle"
                TargetType="RadioButton"
                >
+            <Setter Property="Margin"
+                    Value="5,0,0,0"/>
             <Setter Property="ControlTemplate"
                     Value="{StaticResource RadioButtonControlTemplate}"/>
             <Setter Property="FontSize"
@@ -97,6 +100,8 @@
         <Style x:Key="RadioButtonStyle"
                TargetType="RadioButton"
                >
+            <Setter Property="Margin"
+                    Value="5,0,0,0"/>
             <Setter Property="FontSize"
                 Value="{StaticResource DefaultFontSize}" />
             <Setter Property="HorizontalOptions"
@@ -114,6 +119,24 @@
                          Style="{StaticResource RadioButtonStyle}"
                          GroupName="GroupA"
                          />
+        </DataTemplate>
+
+        <!-- Use an ItemTemplate with RadioGroup -->
+        <DataTemplate x:Key="RadioGroupItemTemplate"
+                      x:DataType="controls:RadioItem">
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Fill"
+                         Spacing="5"
+                         >
+                <Label Text="{Binding Path=Value, Converter={x:Static converter:AppThemeConverter.Converter}}"
+                       TextColor="{Binding TextColor}"
+                       FontSize="{StaticResource DefaultFontSize}"
+                       />
+                <Label Text="{Binding Path=Value, StringFormat='({0})'}"
+                       TextColor="{Binding DisabledTextColor}"
+                       FontSize="{StaticResource DefaultFontSize}"
+                       />
+            </StackLayout>
         </DataTemplate>
 
         <Style x:Key="GroupBorderStyle"
@@ -153,6 +176,7 @@
           HorizontalOptions="Fill"
           VerticalOptions="Fill">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -196,25 +220,42 @@
             </StackLayout>
         </Border>
         
-        <!-- Use a custom radio buttons group -->
+        <!-- Use RadioGroup -->
         <Border Grid.Row="2"
                 Style="{StaticResource GroupBorderStyle}">
             <StackLayout Orientation="Vertical"
                          Spacing="5">
                 
                 <Label Style="{StaticResource GroupLabelTextStyle}"
-                       Text="Custom radio buttons"/>
+                       Text="Custom RadioGroup"/>
                 
                 <controls:RadioGroup ItemsSource="{Binding Themes}"
                                      SelectedValue="{Binding PreferredTheme}"
                                      TextColor="{DynamicResource PrimaryForeground}"
                                      DisabledTextColor="{DynamicResource DisabledForeground}"
-                                     CheckedColor="{DynamicResource RadioButtonCheckedColor}"
-                                     UncheckedColor="{DynamicResource RadioButtonUncheckedColor}"
                                      />
 
             </StackLayout>
          </Border>
+
+        <!-- Use RadioGroup with an ItemTemplate -->
+        <Border Grid.Row="3"
+                Style="{StaticResource GroupBorderStyle}">
+            <StackLayout Orientation="Vertical"
+                         Spacing="5">
+
+                <Label Style="{StaticResource GroupLabelTextStyle}"
+                       Text="Custom RadioGroup with an ItemTemplate"/>
+
+                <controls:RadioGroup ItemsSource="{Binding Themes}"
+                                     ItemTemplate="{StaticResource RadioGroupItemTemplate}"
+                                     SelectedValue="{Binding PreferredTheme}"
+                                     TextColor="{DynamicResource PrimaryForeground}"
+                                     DisabledTextColor="{DynamicResource DisabledForeground}"
+                                     />
+
+            </StackLayout>
+        </Border>
     </Grid>
 
 </ContentPage>

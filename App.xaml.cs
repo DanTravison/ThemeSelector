@@ -18,6 +18,16 @@ public partial class App : Application
 		MainPage = new AppShell();
 	}
 
+#if WINDOWS
+    protected override Window CreateWindow(IActivationState activationState)
+    {
+        Window window = base.CreateWindow(activationState);
+        window.Width = 800;
+        window.Height = 1100;
+        return window;
+    }
+#endif
+
     /// <summary>
     /// Provides an alternative to Application.Current.RequestedTheme to workaround
     /// https://github.com/dotnet/maui/issues/8236.

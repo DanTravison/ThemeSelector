@@ -7,7 +7,10 @@
     <Color x:Key="PrimaryForeground">#212121</Color>
     <Color x:Key="DisabledForeground">#ACACAC</Color>
 
-    <Color x:Key="RadioButtonUncheckedColor">#212121</Color>
-    <Color x:Key="RadioButtonCheckedColor">#DB9EE5</Color>
+     <Color x:Key="RadioButtonUncheckedColor">Green</Color>
+     <Color x:Key="RadioButtonCheckedColor">Blue</Color>
+
+    <Color x:Key="EllipseColor">Green</Color>
+    
 
 </ResourceDictionary>

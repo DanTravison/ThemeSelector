@@ -40,7 +40,7 @@
                              Value="True"
                              >
                     <Setter Property="TextColor"
-                            Value="{Binding TextColor}"/>
+                            Value="{Binding Source={RelativeSource AncestorType={x:Type local:RadioItem}}, Path=TextColor, Mode=OneWay}"/>
                 </DataTrigger>
 
                 <DataTrigger TargetType="Label"
@@ -48,24 +48,42 @@
                              Value="False"
                              >
                     <Setter Property="TextColor"
-                            Value="{Binding DisabledTextColor}"/>
+                            Value="{Binding Source={RelativeSource AncestorType={x:Type local:RadioItem}}, Path=DisabledTextColor, Mode=OneWay}"/>
                 </DataTrigger>
             </Style.Triggers>
 
         </Style>
 
-        <DataTemplate x:Key="RadioItemItemTemplate">
+        <Style x:Key="RadioItemStyle"
+                TargetType="local:RadioItem"
+                x:DataType="model:RadioItemModel"
+                >
+            <Setter Property="BackgroundColor"
+                    Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=BackgroundColor, Mode=OneWay}"/>
+            <Setter Property="TextColor"
+                    Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TextColor, Mode=OneWay}"/>
+            <Setter Property="DisabledTextColor"
+                    Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=DisabledTextColor, Mode=OneWay}"/>
+            <Setter Property="CheckedColor"
+                    Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=CheckedColor, Mode=OneWay}"/>
+            <Setter Property="UncheckedColor"
+                    Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=UncheckedColor, Mode=OneWay}"/>
+            <Setter Property="ItemTemplate"
+                    Value="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=ItemTemplate, Mode=OneWay}"/>
+            <Setter Property="IsChecked"
+                    Value="{Binding IsChecked}"/>
+            <Setter Property="Value"
+                    Value="{Binding Value}"/>
+            <Setter Property="IsEnabled"
+                    Value="{Binding IsEnabled}"/>
+        </Style>
+
+        <DataTemplate x:Key="RadioItemContentTemplate">
             <Label Style="{StaticResource RadioText}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="RadioItemTemplate" x:DataType="model:RadioItemModel">
-            <local:RadioItem TextColor="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=TextColor}"
-                             DisabledTextColor="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=DisabledTextColor}"
-                             IsChecked="{Binding IsChecked}"
-                             Value="{Binding Value}"
-                             IsEnabled="{Binding IsEnabled}"
-                             ItemTemplate="{Binding Source={RelativeSource AncestorType={x:Type ContentView}}, Path=ItemTemplate}"
-                             />
+            <local:RadioItem Style="{StaticResource RadioItemStyle}"/>
         </DataTemplate>
 
     </ContentView.Resources>

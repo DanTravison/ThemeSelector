@@ -25,9 +25,8 @@
             <Setter Property="Aspect"
                     Value="Uniform"/>
 
-            <!-- Update when Stroke DataTrigger issue resolved. -->
             <Setter Property="Stroke"
-                            Value="{StaticResource PrimaryForegroundBrush}"/>
+                            Value="{StaticResource RadioButtonUncheckedBrush}"/>
             <Style.Triggers>
                 <DataTrigger TargetType="Ellipse"
                              Binding="{Binding IsChecked}"
@@ -35,11 +34,9 @@
                              >
                     <Setter Property="StrokeThickness"
                             Value="5"/>
-                    <!-- Stroke brush is not updating reliably - don't know why
-                         The same issue occurs with RadioItem.xaml
+                    <!-- Stroke brush is not updating reliably when set in a DataTrigger -->
                     <Setter Property="Stroke"
                             Value="{StaticResource RadioButtonCheckedBrush}"/>
-                    -->
                 </DataTrigger>
 
                 <DataTrigger TargetType="Ellipse"
@@ -48,10 +45,9 @@
                              >
                     <Setter Property="StrokeThickness"
                             Value="2"/>
-                    <!-- Stroke brush is not updating reliably
+                    <!-- Stroke brush is not updating reliably when set in a DataTrigger -->
                     <Setter Property="Stroke"
                             Value="{StaticResource RadioButtonUncheckedBrush}"/>
-                    -->
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -129,11 +125,11 @@
                          Spacing="5"
                          >
                 <Label Text="{Binding Path=Value, Converter={x:Static converter:AppThemeConverter.Converter}}"
-                       TextColor="{Binding TextColor}"
+                       TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:RadioItem}}, Path=TextColor}"
                        FontSize="{StaticResource DefaultFontSize}"
                        />
                 <Label Text="{Binding Path=Value, StringFormat='({0})'}"
-                       TextColor="{Binding DisabledTextColor}"
+                       TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:RadioItem}}, Path=DisabledTextColor}"
                        FontSize="{StaticResource DefaultFontSize}"
                        />
             </StackLayout>
@@ -170,12 +166,110 @@
                     Value="5,5,0,5"/>
         </Style>
 
+        <Style TargetType="Ellipse"
+               x:Key="DataTriggerEllipse"
+               x:DataType="local:MainViewModel"
+               >
+            <Setter Property="HeightRequest"
+                    Value="21"/>
+            <Setter Property="WidthRequest"
+                    Value="21"/>
+            <Setter Property="Aspect"
+                    Value="Uniform"/>
+            <Setter Property="Stroke"
+                    Value="{StaticResource RadioButtonUncheckedBrush}"/>
+            <Setter Property="Fill"
+                    Value="{StaticResource PrimaryBackgroundBrush}"/>
+            <Setter Property="BackgroundColor"
+                    Value="Transparent"/>
+            <Style.Triggers>
+                <DataTrigger TargetType="Ellipse"
+                             Binding="{Binding EllipsedChecked}"
+                             Value="True"
+                             >
+                    <Setter Property="StrokeThickness"
+                            Value="5"/>
+                    <Setter Property="Stroke"
+                            Value="{StaticResource RadioButtonCheckedBrush}"/>
+                </DataTrigger>
+
+                <DataTrigger TargetType="Ellipse"
+                             Binding="{Binding EllipsedChecked}"
+                             Value="False"
+                             >
+                    <Setter Property="StrokeThickness"
+                            Value="2"/>
+                    <Setter Property="Stroke"
+                            Value="{StaticResource RadioButtonUncheckedBrush}"/>
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Ellipse"
+               x:Key="ThemeEllipse"
+               >
+            <Setter Property="StrokeThickness"
+                            Value="5"/>
+            <Setter Property="HeightRequest"
+                    Value="21"/>
+            <Setter Property="WidthRequest"
+                    Value="21"/>
+            <Setter Property="Aspect"
+                    Value="Uniform"/>
+            <Setter Property="Stroke"
+                    Value="{StaticResource PrimaryForegroundBrush}"/>
+            <Setter Property="Fill"
+                    Value="{StaticResource PrimaryBackgroundBrush}"/>
+            <Setter Property="BackgroundColor"
+                    Value="Transparent"/>
+            <Style.Triggers>
+                <DataTrigger TargetType="Ellipse"
+                             Binding="{Binding EllipsedChecked}"
+                             Value="True"
+                             >
+                    <Setter Property="StrokeThickness"
+                            Value="5"/>
+                    <Setter Property="Stroke"
+                            Value="{DynamicResource EllipseBrush}"/>
+                </DataTrigger>
+
+                <DataTrigger TargetType="Ellipse"
+                             Binding="{Binding EllipsedChecked}"
+                             Value="False"
+                             >
+                    <Setter Property="StrokeThickness"
+                            Value="2"/>
+                    <Setter Property="Stroke"
+                            Value="{StaticResource PrimaryForegroundBrush}"/>
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="LabelStyle"
+               TargetType="Label">
+            <Setter Property="FontSize"
+                    Value="20"/>
+            <Setter Property="TextColor"
+                    Value="{DynamicResource PrimaryForeground}"/>
+            <Setter Property="HorizontalOptions"
+                    Value="Fill"/>
+            <Setter Property="VerticalOptions"
+                    Value="Fill"/>
+            <Setter Property="HorizontalTextAlignment"
+                    Value="Start"/>
+            <Setter Property="VerticalTextAlignment"
+                    Value="Center"/>
+        </Style>
+
     </ContentPage.Resources>
     
     <Grid Margin="5,5,5,5"
           HorizontalOptions="Fill"
           VerticalOptions="Fill">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -233,6 +327,8 @@
                                      SelectedValue="{Binding PreferredTheme}"
                                      TextColor="{DynamicResource PrimaryForeground}"
                                      DisabledTextColor="{DynamicResource DisabledForeground}"
+                                     CheckedColor="{DynamicResource RadioButtonCheckedColor}"
+                                     UncheckedColor="{DynamicResource RadioButtonUncheckedColor}"
                                      />
 
             </StackLayout>
@@ -252,10 +348,46 @@
                                      SelectedValue="{Binding PreferredTheme}"
                                      TextColor="{DynamicResource PrimaryForeground}"
                                      DisabledTextColor="{DynamicResource DisabledForeground}"
-                                     />
+                                     CheckedColor="{DynamicResource RadioButtonCheckedColor}"
+                                     UncheckedColor="{DynamicResource RadioButtonUncheckedColor}"
+                                   />
 
             </StackLayout>
         </Border>
-    </Grid>
 
+        <Border Grid.Row="4"
+                Style="{StaticResource GroupBorderStyle}">
+            <Grid Margin="5,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackLayout Grid.Row="0" 
+                             Orientation="Horizontal"
+                             Spacing="5"
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Fill"
+                             >
+                    <CheckBox IsChecked="{Binding EllipsedChecked, Mode=TwoWay}" />
+                    <Label Style="{StaticResource LabelStyle}" 
+                           Text="DataTrigger Ellipse"/>
+                    <Ellipse Style="{StaticResource DataTriggerEllipse}"/>
+                </StackLayout>
+                   
+                <StackLayout Grid.Row="2" 
+                             Orientation="Horizontal"
+                             Spacing="5"
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Fill"
+                             >
+                    <Label Style="{StaticResource LabelStyle}" 
+                           Text="Themed Ellipse"/>
+                    <Ellipse Style="{StaticResource ThemeEllipse}"/>
+                </StackLayout>
+
+            </Grid>
+        </Border>
+    </Grid>
 </ContentPage>

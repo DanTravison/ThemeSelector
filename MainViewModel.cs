@@ -13,6 +13,7 @@ namespace ThemeSelector
 
         AppTheme _preferredTheme = AppTheme.Unspecified;
         AppTheme _activeTheme = AppTheme.Unspecified;
+        bool _ellipsedChecked;
 
         readonly ObservableCollection<ThemeItem> _themeItems = new ();
         readonly ObservableCollection<AppTheme> _themes = new();
@@ -71,6 +72,12 @@ namespace ThemeSelector
             }
         }
 
+        public bool EllipsedChecked
+        {
+            get => _ellipsedChecked;
+            set => SetProperty<bool>(ref _ellipsedChecked, value, EllipsedCheckedChangedEventArgs);
+        }
+
         #endregion Properties
 
         #region Methods
@@ -85,7 +92,7 @@ namespace ThemeSelector
         /// </remarks>
         public void SetTheme(AppTheme theme)
         {
-            App.Trace(nameof(MainViewModel), nameof(SetTheme), theme);
+            App.Trace(this, nameof(SetTheme), theme);
 
             if (theme == AppTheme.Unspecified)
             {
@@ -99,6 +106,7 @@ namespace ThemeSelector
 
             if (theme != _activeTheme)
             {
+                App.Trace(this, nameof(SetTheme), "ActiveTheme:{0}", theme);
                 _activeTheme = theme;
                 Application.Current.Resources.MergedDictionaries.Clear();
                 Application.Current.Resources.MergedDictionaries.Add
@@ -130,5 +138,6 @@ namespace ThemeSelector
         #endregion Methods
 
         static readonly PropertyChangedEventArgs PreferredThemeChangedEventArgs = new(nameof(PreferredTheme));
+        static readonly PropertyChangedEventArgs EllipsedCheckedChangedEventArgs = new(nameof(EllipsedChecked));
     }
 }

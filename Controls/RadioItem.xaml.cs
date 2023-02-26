@@ -2,12 +2,29 @@ using System.Windows.Input;
 
 namespace ThemeSelector.Controls;
 
-public partial class RadioItem : ContentView
+public partial class RadioItem : TemplatedView
 {
-	public RadioItem()
+    RadioCheck _icon;
+	
+    public RadioItem()
 	{
 		InitializeComponent();
+        _icon = GetTemplateChild("Icon") as RadioCheck;
 	}
+
+    RadioCheck Check
+    {
+        get
+        {
+            _icon ??= GetTemplateChild("Icon") as RadioCheck;
+            return _icon;
+        }
+    }
+
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+    }
 
     /// <summary>
     /// Gets or sets the command to execute when the control is tapped.
@@ -41,7 +58,8 @@ public partial class RadioItem : ContentView
             object value = ItemTemplate.CreateContent();
             if (value is View view)
             {
-                Content = view;
+                ContentPresenter presenter = GetTemplateChild("Presenter") as ContentPresenter;
+                presenter.Content = view;
                 view.BindingContext = this;
             }
             else
@@ -107,7 +125,8 @@ public partial class RadioItem : ContentView
 
     protected virtual void OnCheckedChanged()
     {
-        App.Trace(this, nameof(IsChecked), IsChecked);
+        App.Trace(this, nameof(IsChecked), "{0} {1}", Value, IsChecked);
+        UpdateCheckColor();
     }
  
     /// <summary>
@@ -153,6 +172,73 @@ public partial class RadioItem : ContentView
         BindingMode.OneWay
     );
 
+    /// <summary>
+    /// Gets or sets the color to use to draw the checked image.
+    /// </summary>
+    public Color CheckedColor
+    {
+        get => (Color)GetValue(CheckedColorProperty);
+        set => SetValue(CheckedColorProperty, value);
+    }
+
+    /// <summary>
+    /// Defines the <see cref="BindableProperty"/> for the <see cref="CheckedColor"/>.
+    /// </summary>
+    public static readonly BindableProperty CheckedColorProperty = BindableProperty.Create
+    (
+        nameof(CheckedColor),
+        typeof(Color),
+        typeof(RadioItem),
+        Colors.White,
+        BindingMode.OneWay,
+        propertyChanging: (bindableObject, oldValue, newValue) =>
+        {
+            RadioItem item = (RadioItem)bindableObject;
+            App.Trace(item, nameof(CheckedColor), "{0} {1}", item.Value, ((Color)newValue).Name());
+        },
+        propertyChanged: (bindableObject, oldValue, newValue) =>
+        {
+            if (bindableObject is RadioItem item)
+            {
+                App.Trace(item, nameof(CheckedColor), "{0} {1}", item.Value, ((Color)newValue).Name());
+                item.UpdateCheckColor();
+            }
+        }
+    );
+
+    /// <summary>
+    /// Gets or sets the color to use to draw the unchecked image.
+    /// </summary>
+    public Color UncheckedColor
+    {
+        get => (Color)GetValue(UncheckedColorProperty);
+        set => SetValue(UncheckedColorProperty, value);
+    }
+
+    /// <summary>
+    /// Defines the <see cref="BindableProperty"/> for the <see cref="UncheckedColor"/>.
+    /// </summary>
+    public static readonly BindableProperty UncheckedColorProperty = BindableProperty.Create
+    (
+        nameof(UncheckedColor),
+        typeof(Color),
+        typeof(RadioItem),
+        Colors.White,
+        BindingMode.OneWay,
+        propertyChanging: (bindableObject, oldValue, newValue) =>
+        {
+            RadioItem item = (RadioItem)bindableObject;
+            App.Trace(item, nameof(UncheckedColor), "{0} {1}", item.Value, ((Color)newValue).Name());
+        },
+        propertyChanged: (bindableObject, oldValue, newValue) =>
+        {
+            if (bindableObject is RadioItem item)
+            {
+                App.Trace(item, nameof(CheckedColor), "{0} {1}", item.Value, ((Color)newValue).Name());
+                item.UpdateCheckColor();
+            }
+        }
+    );
 
     /// <summary>
     /// Gets or sets the color to use to fill the drawn area.
@@ -172,7 +258,12 @@ public partial class RadioItem : ContentView
         typeof(Color),
         typeof(RadioItem),
         Colors.White,
-        BindingMode.OneWay
+        BindingMode.OneWay,
+        propertyChanging: (bindableObject, oldValue, newValue) =>
+        {
+            RadioItem item = (RadioItem)bindableObject;
+            App.Trace(item, nameof(TextColor), "{0} {1}", item.Value, ((Color)newValue).Name());
+        }
     );
 
     /// <summary>
@@ -193,8 +284,30 @@ public partial class RadioItem : ContentView
         typeof(Color),
         typeof(RadioItem),
         Colors.Gray,
-        BindingMode.OneWay
+        BindingMode.OneWay,
+        propertyChanging: (bindableObject, oldValue, newValue) =>
+        {
+            RadioItem item = (RadioItem)bindableObject;
+            App.Trace(item, nameof(DisabledTextColor), "{0} {1}", item.Value, ((Color)newValue).Name());
+        }
     );
+
+    #region Methods
+
+    private void UpdateCheckColor()
+    {
+        if (Check != null)
+        {
+            if (IsChecked)
+            {
+                Check.StrokeColor = CheckedColor;
+            }
+            else
+            {
+                Check.StrokeColor = UncheckedColor;
+            }
+        }
+    }
 
     private void OnTapped(object sender, TappedEventArgs e)
     {
@@ -202,6 +315,13 @@ public partial class RadioItem : ContentView
         {
             IsChecked = true;
             Command?.Execute(this);
+            object child = GetTemplateChild("Icon");
+            if (child is RadioCheck circle)
+            {
+                circle.Invalidate();
+            }
         }
     }
+
+    #endregion Methods
 }

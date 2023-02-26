@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<TemplatedView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ThemeSelector.Controls"
              x:Name="this"
              x:Class="ThemeSelector.Controls.RadioItem"
              x:DataType="local:RadioItem"
              >
-    <ContentView.Resources>
+    <TemplatedView.Resources>
 
-        <Style TargetType="Ellipse"
+        <Style TargetType="local:RadioCheck"
                x:Key="RadioIcon"
                x:DataType="local:RadioItem"
                >
@@ -16,33 +16,46 @@
                     Value="21"/>
             <Setter Property="WidthRequest"
                     Value="21"/>
-            <Setter Property="Aspect"
-                    Value="Uniform"/>
-            <Setter Property="Stroke"
-                            Value="{Binding TextColor}"/>
+            <Setter Property="Tag"
+                    Value="{Binding Value}" />
+            <Setter Property="StrokeColor"
+                    Value="{Binding UncheckedColor, Mode=OneWay}"/>
+            <Setter Property="BackgroundColor"
+                    Value="{Binding BackgroundColor, Mode=OneWay}"/>
+            <Setter Property="StrokeThickness"
+                    Value="2"/>
+            
             <Style.Triggers>
-                <DataTrigger TargetType="Ellipse"
+                <DataTrigger TargetType="local:RadioCheck"
                              Binding="{Binding IsChecked}"
                              Value="True"
                              >
                     <Setter Property="StrokeThickness"
                             Value="5"/>
+                    <!--
+                    <Setter Property="StrokeColor"
+                            Value="{Binding CheckedColor}"/>
+                    -->
                 </DataTrigger>
 
-                <DataTrigger TargetType="Ellipse"
+                <DataTrigger TargetType="local:RadioCheck"
                              Binding="{Binding IsChecked}"
                              Value="False"
                              >
                     <Setter Property="StrokeThickness"
                             Value="2"/>
+                    <!--
+                    <Setter Property="StrokeColor"
+                            Value="{Binding UncheckedColor}"/>
+                    -->
                 </DataTrigger>
 
             </Style.Triggers>
         </Style>
 
-    </ContentView.Resources>
+    </TemplatedView.Resources>
 
-    <ContentView.ControlTemplate>
+    <TemplatedView.ControlTemplate>
         <ControlTemplate>
             <Grid HorizontalOptions="Fill"
                   VerticalOptions="Fill"
@@ -59,9 +72,10 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Ellipse x:Name="Icon"
-                         Grid.Column="0"
-                         Style="{StaticResource RadioIcon}"/>
+                <local:RadioCheck x:Name="Icon"
+                                  BindingContext="{x:Reference this}"
+                                  Grid.Column="0"
+                                  Style="{StaticResource RadioIcon}"/>
 
                 <ContentPresenter x:Name="Presenter" 
                                   HorizontalOptions="Fill"
@@ -69,6 +83,6 @@
                                   Grid.Column="2" />
             </Grid>
         </ControlTemplate>
-    </ContentView.ControlTemplate>
+    </TemplatedView.ControlTemplate>
        
-</ContentView>
+</TemplatedView>

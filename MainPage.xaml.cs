@@ -4,10 +4,11 @@ public partial class MainPage : ContentPage
 {
 	public MainPage()
 	{
-		BindingContext = new MainViewModel();
+		MainViewModel model = new MainViewModel();
+		BindingContext = model;
 		InitializeComponent();
 
-		((MainViewModel)BindingContext).PreferredTheme = AppTheme.Unspecified;
+		model.SetTheme(AppTheme.Unspecified);
 	}
 }
 

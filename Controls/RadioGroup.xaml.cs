@@ -6,6 +6,11 @@ namespace ThemeSelector.Controls;
 
 public partial class RadioGroup : ContentView
 {
+    /// <summary>
+    /// Defines the resource key value of the default <see cref="RadioItem.ItemTemplate"/>.
+    /// </summary>
+    public const string RadioItemContentTemplate = "RadioItemContentTemplate";
+
     public RadioGroup()
     {
         Model = new RadioGroupModel();
@@ -26,7 +31,7 @@ public partial class RadioGroup : ContentView
     {
         if (ItemTemplate == null)
         {
-            this.Resources.TryGetValue("RadioItemItemTemplate", out object template);
+            this.Resources.TryGetValue(RadioItemContentTemplate, out object template);
             ItemTemplate = (DataTemplate)template;
         }
         base.OnChildAdded(child);
@@ -55,7 +60,55 @@ public partial class RadioGroup : ContentView
         typeof(DataTemplate),
         typeof(RadioItem),
         null,
-        BindingMode.TwoWay
+        BindingMode.OneWay
+    );
+
+    /// <summary>
+    /// Gets or sets the color to use to draw the checked image.
+    /// </summary>
+    public Color CheckedColor
+    {
+        get => (Color)GetValue(CheckedColorProperty);
+        set => SetValue(CheckedColorProperty, value);
+    }
+
+    /// <summary>
+    /// Defines the <see cref="BindableProperty"/> for the <see cref="CheckedColor"/>.
+    /// </summary>
+    public static readonly BindableProperty CheckedColorProperty = BindableProperty.Create
+    (
+        nameof(CheckedColor),
+        typeof(Color),
+        typeof(RadioGroup),
+        Colors.White,
+        propertyChanging: (bindableObject, oldValue, newValue) =>
+        {
+            App.Trace(bindableObject, nameof(CheckedColor), ((Color)newValue).Name());
+        }
+    );
+
+    /// <summary>
+    /// Gets or sets the color to use to draw the unchecked image.
+    /// </summary>
+    public Color UncheckedColor
+    {
+        get => (Color)GetValue(UncheckedColorProperty);
+        set => SetValue(UncheckedColorProperty, value);
+    }
+
+    /// <summary>
+    /// Defines the <see cref="BindableProperty"/> for the <see cref="UncheckedColor"/>.
+    /// </summary>
+    public static readonly BindableProperty UncheckedColorProperty = BindableProperty.Create
+    (
+        nameof(UncheckedColor),
+        typeof(Color),
+        typeof(RadioGroup),
+        Colors.White,
+        propertyChanging: (bindableObject, oldValue, newValue) =>
+        {
+            App.Trace(bindableObject, nameof(UncheckedColor), ((Color)newValue).Name());
+        }
     );
     
     /// <summary>
@@ -76,7 +129,10 @@ public partial class RadioGroup : ContentView
         typeof(Color),
         typeof(RadioGroup),
         Colors.White,
-        BindingMode.OneWay
+        propertyChanging: (bindableObject, oldValue, newValue) =>
+        {
+            App.Trace(bindableObject, nameof(TextColor), ((Color)newValue).Name());
+        }
     );
 
     /// <summary>
@@ -97,9 +153,11 @@ public partial class RadioGroup : ContentView
         typeof(Color),
         typeof(RadioGroup),
         Colors.Gray,
-        BindingMode.OneWay
+        propertyChanging: (bindableObject, oldValue, newValue) =>
+        {
+            App.Trace(bindableObject, nameof(DisabledTextColor), newValue);
+        }
     );
-
     /// <summary>
     /// Gets or sets the <see cref="IEnumerable"/> to use to populate the control.
     /// </summary>
@@ -147,6 +205,10 @@ public partial class RadioGroup : ContentView
         typeof(RadioGroup),
         null,
         BindingMode.TwoWay,
+        propertyChanging: (bindableObject, oldValue, newValue) =>
+        {
+            App.Trace(bindableObject, nameof(SelectedValue), newValue);
+        },
         propertyChanged: (bindableObject, oldValue, newValue) =>
         {
             if (bindableObject is RadioGroup control)

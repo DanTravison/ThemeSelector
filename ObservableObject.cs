@@ -61,6 +61,7 @@ namespace ThemeSelector
             {
                 return false;
             }
+            App.Trace(this, e.PropertyName, newValue);
             field = newValue;
             OnPropertyChanged(e);
             return true;

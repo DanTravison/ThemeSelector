@@ -34,7 +34,7 @@ namespace ThemeSelector
 
             if (Application.Current is App app)
             {
-                app.SystemThemeChanged += OnSystemThemeChanged;
+                SystemTheme.RequestedThemeChanged += OnSystemThemeChanged;
             }
         }
 
@@ -100,7 +100,7 @@ namespace ThemeSelector
                 // if the preferred theme is 'use system'
                 if (theme == AppTheme.Unspecified)
                 {
-                    theme = App.SystemTheme;
+                    theme = SystemTheme.RequestedTheme;
                 }
             }
 
@@ -122,7 +122,7 @@ namespace ThemeSelector
             if (PreferredTheme == AppTheme.Unspecified)
             {
                 // Update the application's them to the system theme.
-                SetTheme(App.SystemTheme);
+                SetTheme(SystemTheme.RequestedTheme);
             }
             // otherwise, ignore this.
         }

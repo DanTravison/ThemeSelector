@@ -96,3 +96,6 @@ See https://github.com/dotnet/maui/issues/11709
 
 See https://github.com/dotnet/maui/issues/11747
  - iOS Radio Button displays with same black coloring in Dark Mode
+
+See https://github.com/dotnet/maui/issues/13570
+ - Referencing a dynamic color in a DataTrigger does not work.

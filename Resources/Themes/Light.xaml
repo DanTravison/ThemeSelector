@@ -10,7 +10,4 @@
      <Color x:Key="RadioButtonUncheckedColor">Green</Color>
      <Color x:Key="RadioButtonCheckedColor">Blue</Color>
 
-    <Color x:Key="EllipseColor">Green</Color>
-    
-
 </ResourceDictionary>

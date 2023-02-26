@@ -10,6 +10,4 @@
     <Color x:Key="RadioButtonUncheckedColor">AntiqueWhite</Color>
     <Color x:Key="RadioButtonCheckedColor">Crimson</Color>
 
-    <Color x:Key="EllipseColor">Red</Color>
-
 </ResourceDictionary>

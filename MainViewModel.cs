@@ -13,7 +13,7 @@ namespace ThemeSelector
 
         AppTheme _preferredTheme = AppTheme.Unspecified;
         AppTheme _activeTheme = AppTheme.Unspecified;
-        bool _ellipsedChecked;
+        bool _isChecked;
 
         readonly ObservableCollection<ThemeItem> _themeItems = new ();
         readonly ObservableCollection<AppTheme> _themes = new();
@@ -72,10 +72,10 @@ namespace ThemeSelector
             }
         }
 
-        public bool EllipsedChecked
+        public bool IsChecked
         {
-            get => _ellipsedChecked;
-            set => SetProperty<bool>(ref _ellipsedChecked, value, EllipsedCheckedChangedEventArgs);
+            get => _isChecked;
+            set => SetProperty<bool>(ref _isChecked, value, IsCheckedChangedEventArgs);
         }
 
         #endregion Properties
@@ -138,6 +138,6 @@ namespace ThemeSelector
         #endregion Methods
 
         static readonly PropertyChangedEventArgs PreferredThemeChangedEventArgs = new(nameof(PreferredTheme));
-        static readonly PropertyChangedEventArgs EllipsedCheckedChangedEventArgs = new(nameof(EllipsedChecked));
+        static readonly PropertyChangedEventArgs IsCheckedChangedEventArgs = new(nameof(IsChecked));
     }
 }

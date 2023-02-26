@@ -178,13 +178,11 @@
                     Value="Uniform"/>
             <Setter Property="Stroke"
                     Value="{StaticResource RadioButtonUncheckedBrush}"/>
-            <Setter Property="Fill"
-                    Value="{StaticResource PrimaryBackgroundBrush}"/>
             <Setter Property="BackgroundColor"
                     Value="Transparent"/>
             <Style.Triggers>
                 <DataTrigger TargetType="Ellipse"
-                             Binding="{Binding EllipsedChecked}"
+                             Binding="{Binding IsChecked}"
                              Value="True"
                              >
                     <Setter Property="StrokeThickness"
@@ -194,54 +192,13 @@
                 </DataTrigger>
 
                 <DataTrigger TargetType="Ellipse"
-                             Binding="{Binding EllipsedChecked}"
+                             Binding="{Binding IsChecked}"
                              Value="False"
                              >
                     <Setter Property="StrokeThickness"
                             Value="2"/>
                     <Setter Property="Stroke"
                             Value="{StaticResource RadioButtonUncheckedBrush}"/>
-                </DataTrigger>
-
-            </Style.Triggers>
-        </Style>
-
-        <Style TargetType="Ellipse"
-               x:Key="ThemeEllipse"
-               >
-            <Setter Property="StrokeThickness"
-                            Value="5"/>
-            <Setter Property="HeightRequest"
-                    Value="21"/>
-            <Setter Property="WidthRequest"
-                    Value="21"/>
-            <Setter Property="Aspect"
-                    Value="Uniform"/>
-            <Setter Property="Stroke"
-                    Value="{StaticResource PrimaryForegroundBrush}"/>
-            <Setter Property="Fill"
-                    Value="{StaticResource PrimaryBackgroundBrush}"/>
-            <Setter Property="BackgroundColor"
-                    Value="Transparent"/>
-            <Style.Triggers>
-                <DataTrigger TargetType="Ellipse"
-                             Binding="{Binding EllipsedChecked}"
-                             Value="True"
-                             >
-                    <Setter Property="StrokeThickness"
-                            Value="5"/>
-                    <Setter Property="Stroke"
-                            Value="{DynamicResource EllipseBrush}"/>
-                </DataTrigger>
-
-                <DataTrigger TargetType="Ellipse"
-                             Binding="{Binding EllipsedChecked}"
-                             Value="False"
-                             >
-                    <Setter Property="StrokeThickness"
-                            Value="2"/>
-                    <Setter Property="Stroke"
-                            Value="{StaticResource PrimaryForegroundBrush}"/>
                 </DataTrigger>
 
             </Style.Triggers>
@@ -276,8 +233,44 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Illustrate DataTrigger issue with an Ellipse -->
+        <Border Grid.Row="0"
+                Style="{StaticResource GroupBorderStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <StackLayout Grid.Row="0" 
+                             Orientation="Horizontal"
+                             Spacing="5"
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Fill"
+                             >
+                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+                    <Label Style="{StaticResource LabelStyle}" 
+                           Text="Fill: Dynamic Color"/>
+                    <Ellipse Style="{StaticResource DataTriggerEllipse}"
+                             Fill="{DynamicResource PrimaryBackgroundBrush}"
+                             />
+                </StackLayout>
+                <StackLayout Grid.Row="1" 
+                             Orientation="Horizontal"
+                             Spacing="5"
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Fill"
+                             >
+                    <Label Style="{StaticResource LabelStyle}" 
+                           Text="Fill: Transparent"/>
+                    <Ellipse Style="{StaticResource DataTriggerEllipse}"
+                             Fill="Transparent"/>
+                </StackLayout>
+            </Grid>
+        </Border>
+        
         <!-- Use radio buttons with a control template -->
-        <Border Grid.Row="0" 
+        <Border Grid.Row="1"
                 Style="{StaticResource GroupBorderStyle}">
             <StackLayout Orientation="Vertical"
                          Spacing="5">
@@ -296,7 +289,7 @@
         </Border>
 
         <!-- Use radio buttons without a control template -->
-        <Border Grid.Row="1" 
+        <Border Grid.Row="2" 
                 Style="{StaticResource GroupBorderStyle}">
             <StackLayout Orientation="Vertical"
                          Spacing="5">
@@ -315,7 +308,7 @@
         </Border>
         
         <!-- Use RadioGroup -->
-        <Border Grid.Row="2"
+        <Border Grid.Row="3"
                 Style="{StaticResource GroupBorderStyle}">
             <StackLayout Orientation="Vertical"
                          Spacing="5">
@@ -335,7 +328,7 @@
          </Border>
 
         <!-- Use RadioGroup with an ItemTemplate -->
-        <Border Grid.Row="3"
+        <Border Grid.Row="4"
                 Style="{StaticResource GroupBorderStyle}">
             <StackLayout Orientation="Vertical"
                          Spacing="5">
@@ -353,41 +346,6 @@
                                    />
 
             </StackLayout>
-        </Border>
-
-        <Border Grid.Row="4"
-                Style="{StaticResource GroupBorderStyle}">
-            <Grid Margin="5,0,0,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <StackLayout Grid.Row="0" 
-                             Orientation="Horizontal"
-                             Spacing="5"
-                             HorizontalOptions="Fill"
-                             VerticalOptions="Fill"
-                             >
-                    <CheckBox IsChecked="{Binding EllipsedChecked, Mode=TwoWay}" />
-                    <Label Style="{StaticResource LabelStyle}" 
-                           Text="DataTrigger Ellipse"/>
-                    <Ellipse Style="{StaticResource DataTriggerEllipse}"/>
-                </StackLayout>
-                   
-                <StackLayout Grid.Row="2" 
-                             Orientation="Horizontal"
-                             Spacing="5"
-                             HorizontalOptions="Fill"
-                             VerticalOptions="Fill"
-                             >
-                    <Label Style="{StaticResource LabelStyle}" 
-                           Text="Themed Ellipse"/>
-                    <Ellipse Style="{StaticResource ThemeEllipse}"/>
-                </StackLayout>
-
-            </Grid>
         </Border>
     </Grid>
 </ContentPage>

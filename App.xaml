@@ -23,9 +23,6 @@
         <SolidColorBrush x:Key="PrimaryBackgroundBrush"
                      Color="{DynamicResource PrimaryBackground}"/>
 
-        <SolidColorBrush x:Key="EllipseBrush"
-                     Color="{DynamicResource EllipseColor}"/>
-
     </Application.Resources>
     
 </Application>

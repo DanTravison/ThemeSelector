@@ -7,8 +7,6 @@
     /// </summary>
     public static class SystemTheme
     {
-        static object _lock = new object();
-
         /// <summary>
         /// Gets the system's <see cref="AppTheme"/>.
         /// </summary>
@@ -36,31 +34,21 @@
         /// </remarks>
         public static event EventHandler<AppThemeChangedEventArgs> RequestedThemeChanged
         {
-            // NOTE: the lock is used out of an abundance of caution but may
-            // not be necessary.
             add
             {
-                // Add the event delegate to the appropriate event
-                lock (_lock)
-                {
 #if (ANDROID)
-                    ThemeSelector.Platforms.Android.ThemeInfo.RequestedThemeChanged += value;
+                ThemeSelector.Platforms.Android.ThemeInfo.RequestedThemeChanged += value;
 #else
-                    Application.Current.RequestedThemeChanged += value;
+                Application.Current.RequestedThemeChanged += value;
 #endif
-                }
             }
             remove
             {
-                // Remove the event delegate from appropriate event
-                lock (_lock)
-                { 
 #if (ANDROID)
-                    ThemeSelector.Platforms.Android.ThemeInfo.RequestedThemeChanged -= value;
+                ThemeSelector.Platforms.Android.ThemeInfo.RequestedThemeChanged -= value;
 #else
-                    Application.Current.RequestedThemeChanged -= value;
+                Application.Current.RequestedThemeChanged -= value;
 #endif                
-                }
             }
         }
     }

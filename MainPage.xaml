@@ -29,7 +29,7 @@
                             Value="{StaticResource RadioButtonUncheckedBrush}"/>
             <Style.Triggers>
                 <DataTrigger TargetType="Ellipse"
-                             Binding="{Binding IsChecked}"
+                             Binding="{Binding IsEllipseChecked}"
                              Value="True"
                              >
                     <Setter Property="StrokeThickness"
@@ -40,7 +40,7 @@
                 </DataTrigger>
 
                 <DataTrigger TargetType="Ellipse"
-                             Binding="{Binding IsChecked}"
+                             Binding="{Binding IsEllipseChecked}"
                              Value="False"
                              >
                     <Setter Property="StrokeThickness"
@@ -87,7 +87,7 @@
                       x:DataType="local:ThemeItem">
             <RadioButton Content="{Binding Text}"
                          Value="{Binding Theme}"
-                         IsChecked="{Binding IsSelected}"
+                         IsChecked="{Binding IsChecked}"
                          Style="{StaticResource RadioButtonTemplatedStyle}"
                          GroupName="GroupB"
                          />
@@ -111,7 +111,7 @@
                       x:DataType="local:ThemeItem">
             <RadioButton Content="{Binding Text}"
                          Value="{Binding Theme}"
-                         IsChecked="{Binding IsSelected}"
+                         IsChecked="{Binding IsChecked}"
                          Style="{StaticResource RadioButtonStyle}"
                          GroupName="GroupA"
                          />
@@ -182,7 +182,7 @@
                     Value="Transparent"/>
             <Style.Triggers>
                 <DataTrigger TargetType="Ellipse"
-                             Binding="{Binding IsChecked}"
+                             Binding="{Binding IsEllipseChecked}"
                              Value="True"
                              >
                     <Setter Property="StrokeThickness"
@@ -192,7 +192,7 @@
                 </DataTrigger>
 
                 <DataTrigger TargetType="Ellipse"
-                             Binding="{Binding IsChecked}"
+                             Binding="{Binding IsEllipseChecked}"
                              Value="False"
                              >
                     <Setter Property="StrokeThickness"
@@ -248,7 +248,7 @@
                              HorizontalOptions="Fill"
                              VerticalOptions="Fill"
                              >
-                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+                    <CheckBox IsChecked="{Binding IsEllipseChecked, Mode=TwoWay}" />
                     <Label Style="{StaticResource LabelStyle}" 
                            Text="Fill: Dynamic Color"/>
                     <Ellipse Style="{StaticResource DataTriggerEllipse}"

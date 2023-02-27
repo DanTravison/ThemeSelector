@@ -4,15 +4,14 @@ namespace ThemeSelector
 {
     public sealed class ThemeItem : ObservableObject
     {
-        bool _isSelected;
+        bool? _isChecked;
         readonly Action<ThemeItem> _action;
 
-        public ThemeItem(string text, Action<ThemeItem> action, AppTheme value, bool isSelected = false)
+        public ThemeItem(string text, Action<ThemeItem> action, AppTheme value)
         {
             Theme = value;
             Text = text;
             _action = action;
-            _isSelected = isSelected;
         }
 
         #region Properties
@@ -27,12 +26,12 @@ namespace ThemeSelector
             get;
         }
 
-        public bool IsSelected
+        public bool IsChecked
         {
-            get => _isSelected;
+            get => _isChecked == true;
             set
             {
-                if (SetProperty(ref _isSelected, value, IsSelectedChangedEventArgs))
+                if (SetProperty(ref _isChecked, value, IsSelectedChangedEventArgs))
                 {
                     _action.Invoke(this);
                 }
@@ -41,6 +40,6 @@ namespace ThemeSelector
 
         #endregion Properties
         
-        static readonly PropertyChangedEventArgs IsSelectedChangedEventArgs = new(nameof(IsSelected));
+        static readonly PropertyChangedEventArgs IsSelectedChangedEventArgs = new(nameof(IsChecked));
     }
 }

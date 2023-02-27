@@ -13,7 +13,7 @@ namespace ThemeSelector
 
         AppTheme _preferredTheme = AppTheme.Unspecified;
         AppTheme _activeTheme = AppTheme.Unspecified;
-        bool _isChecked;
+        bool _isEllipseChecked;
 
         readonly ObservableCollection<ThemeItem> _themeItems = new ();
         readonly ObservableCollection<AppTheme> _themes = new();
@@ -21,7 +21,10 @@ namespace ThemeSelector
 
         public MainViewModel()
         {
-            _themeItems.Add(new ("System", OnThemeSelected, AppTheme.Unspecified));
+            _themeItems.Add(new ("System", OnThemeSelected, AppTheme.Unspecified)
+            {
+                IsChecked = true
+            });
             _themeItems.Add(new (nameof(AppTheme.Light), OnThemeSelected, AppTheme.Light));
             _themeItems.Add(new (nameof(AppTheme.Dark), OnThemeSelected, AppTheme.Dark));
             ThemeItems = new (_themeItems);
@@ -31,11 +34,6 @@ namespace ThemeSelector
                 _themes.Add(theme);
             }
             Themes = new(_themes);
-
-            if (Application.Current is App app)
-            {
-                SystemTheme.RequestedThemeChanged += OnSystemThemeChanged;
-            }
         }
 
         #region Properties
@@ -66,16 +64,16 @@ namespace ThemeSelector
                     SetTheme(value);
                     foreach (ThemeItem theme in _themeItems)
                     {
-                        theme.IsSelected = theme.Theme == _preferredTheme;
+                        theme.IsChecked = theme.Theme == _preferredTheme;
                     }
                 }
             }
         }
 
-        public bool IsChecked
+        public bool IsEllipseChecked
         {
-            get => _isChecked;
-            set => SetProperty<bool>(ref _isChecked, value, IsCheckedChangedEventArgs);
+            get => _isEllipseChecked;
+            set => SetProperty<bool>(ref _isEllipseChecked, value, IsEllipseCheckedChangedEventArgs);
         }
 
         #endregion Properties
@@ -116,20 +114,9 @@ namespace ThemeSelector
             }
         }
 
-        private void OnSystemThemeChanged(object sender, AppThemeChangedEventArgs e)
-        {
-            // If the user wants to use the system theme...
-            if (PreferredTheme == AppTheme.Unspecified)
-            {
-                // Update the application's them to the system theme.
-                SetTheme(SystemTheme.RequestedTheme);
-            }
-            // otherwise, ignore this.
-        }
-
         void OnThemeSelected(ThemeItem item)
         {
-            if (item.IsSelected)
+            if (item.IsChecked)
             {
                 PreferredTheme = item.Theme;
             }
@@ -138,6 +125,6 @@ namespace ThemeSelector
         #endregion Methods
 
         static readonly PropertyChangedEventArgs PreferredThemeChangedEventArgs = new(nameof(PreferredTheme));
-        static readonly PropertyChangedEventArgs IsCheckedChangedEventArgs = new(nameof(IsChecked));
+        static readonly PropertyChangedEventArgs IsEllipseCheckedChangedEventArgs = new(nameof(IsEllipseChecked));
     }
 }

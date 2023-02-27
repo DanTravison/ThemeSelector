@@ -28,7 +28,7 @@ public class MainActivity : MauiAppCompatActivity
     public override void OnConfigurationChanged(Configuration newConfig)
     {
         base.OnConfigurationChanged(newConfig);
-        ThemeInfo.CheckTheme();
+        Platforms.Android.ThemeInfo.CheckTheme();
     }
 
 #else

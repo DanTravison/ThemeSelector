@@ -7,8 +7,16 @@ public partial class App : Application
     public App()
 	{
         InitializeComponent();
-		MainPage = new AppShell();
-	}
+        BindingContext = Model = new MainViewModel();
+
+        MainPage = new NavigationPage(new MainPage()
+        {
+            BindingContext = BindingContext
+        });
+
+        Model.SetTheme(Model.PreferredTheme);
+        SystemTheme.RequestedThemeChanged += OnRequestedThemeChanged;
+    }
 
 #if WINDOWS
     protected override Window CreateWindow(IActivationState activationState)
@@ -19,6 +27,24 @@ public partial class App : Application
         return window;
     }
 #endif
+
+    MainViewModel Model
+    {
+        get;
+        set;
+    }
+
+    private void OnRequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
+    {
+        App.Trace(this, nameof(OnRequestedThemeChanged), e.RequestedTheme);
+        // If the user wants to use the system theme...
+        if (Model.PreferredTheme == AppTheme.Unspecified)
+        {
+            // Update the application's them to the system theme.
+            Model.SetTheme(e.RequestedTheme);
+        }
+        // otherwise, ignore this.
+    }
 
     #region Tracing
 
